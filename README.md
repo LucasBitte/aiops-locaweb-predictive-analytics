@@ -61,14 +61,14 @@ LW-DATASET.xlsx (local)
 |---|---|---|
 | E1 | **Ambiente Local** | VS Code + Python + Git + AWS CLI + MLflow configurados |
 | E2 | **Repositório GitHub** | Estrutura do projeto versionada |
-| E3 | **Infraestrutura AWS** | S3 + RDS + IAM via Terraform |
-| E4 | **Bronze** | Upload do LW-DATASET.xlsx convertido para S3 |
-| E5 | **EDA** | Análise exploratória completa com validação das regras KPI |
-| E6 | **Silver** | Limpeza, filtragem e feature engineering com dbt |
-| E7 | **Gold** | Features para ML + Star Schema histórico para Power BI |
-| E8 | **Modelos** | Prophet + XGBoost + K-Means com MLflow/Azure ML tracking |
-| E9 | **Airflow** | Orquestração do pipeline completo via VPS |
-| E10 | **Serving** | Power BI Fabric com 4 páginas analíticas |
+| E2 | **Infraestrutura AWS** | S3 + RDS + IAM via Terraform |
+| E2 | **Bronze** | Upload do LW-DATASET.xlsx convertido para S3 |
+| E3 | **EDA** | Análise exploratória completa com validação das regras KPI |
+| E4 | **Silver** | Limpeza, filtragem e feature engineering com dbt |
+| E5 | **Gold** | Features para ML + Star Schema histórico para Power BI |
+| E6 | **Modelos** | Prophet + XGBoost + K-Means com MLflow/Azure ML tracking |
+| E7 | **Airflow** | Orquestração do pipeline completo via VPS |
+| E80 | **Serving** | Power BI Fabric com 4 páginas analíticas |
 
 ---
 
@@ -188,7 +188,7 @@ MLFLOW_TRACKING_URI=azureml://...
 
 ---
 
-## Critérios de Avaliação 
+## Critérios de Avaliação (Banca Locaweb)
 
 | Critério | Como atendemos |
 |---|---|
