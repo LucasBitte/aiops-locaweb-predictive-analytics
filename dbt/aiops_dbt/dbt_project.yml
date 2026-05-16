@@ -21,6 +21,9 @@ models:
     staging:
       +materialized: view
       +schema: dbt_dev
-    # marts:
-    #   +materialized: table
-    #   +schema: dbt_dev
+    marts:
+      +materialized: table
+      +schema: dbt_dev
+    ml_marts: 
+      +materialized: table
+      +schema: dbt_dev
