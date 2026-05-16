@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: dim_produto_categoria
+    description: "Dimensão unificada de produtos e suas respectivas categorias/subcategorias para otimização de performance no Power BI."
+    columns:
+      - name: dim_produto_categoria_sk
+        description: "Chave substituta (Surrogate Key) primária obtida através do hash MD5 dos três atributos combinados."
+        tests:
+          - unique
+          - not_null
