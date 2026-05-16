@@ -9,3 +9,11 @@ models:
         tests:
           - unique
           - not_null
+  - name: ml_forecast_dataset
+    description: "Dataset agregado a nível de dia (Série Temporal) contendo volumes de incidentes e métricas de pressão diária para o modelo de previsão Prophet/ARIMA."
+    columns:
+      - name: data_abertura
+        description: "Data de âncora do agrupamento diário (Chave Primária do Dataset)."
+        tests:
+          - unique
+          - not_null
