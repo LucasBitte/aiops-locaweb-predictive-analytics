@@ -9,3 +9,13 @@ models:
         tests:
           - unique
           - not_null
+  - name: dim_grupo
+    description: "Tabela dimensão que armazena as equipes e grupos de suporte designados para o atendimento dos chamados. Variável de alto impacto para análise preditiva de risco de SLA."
+    columns:
+      - name: dim_grupo_sk
+        description: "Chave substituta (Surrogate Key) primária gerada via hash MD5 do nome do grupo designado."
+        tests:
+          - unique
+          - not_null
+      - name: grupo_designado
+        description: "Nome textual da equipe responsável pelo ticket de incidentes."
