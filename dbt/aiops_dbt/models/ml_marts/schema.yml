@@ -30,3 +30,12 @@ models:
         tests:
           - accepted_values:
               values: [0, 1]
+  - name: ml_cluster_dataset
+    description: "Dataset completo de ciclo de vida (causa e efeito) para o modelo de clusterização e segmentação de perfis de incidentes no Python."
+    columns:
+      - name: incident_id
+        description: "Código identificador exclusivo do ticket utilizado para mapeamento pós-clusterização."
+        tests:
+          - unique
+          - not_null
+      
