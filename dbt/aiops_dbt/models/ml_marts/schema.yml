@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: ml_base_features
+    description: "Tabela mestre de features (Feature Store) contendo dados limpos, enriquecidos e filtrados exclusivamente para consumo dos modelos preditivos e analíticos em Python."
+    columns:
+      - name: incident_id
+        description: "Código original único do incidente (Chave Primária Comercial)."
+        tests:
+          - unique
+          - not_null
+  - name: ml_forecast_dataset
+    description: "Dataset agregado a nível de dia (Série Temporal) contendo volumes de incidentes e métricas de pressão diária para o modelo de previsão Prophet/ARIMA."
+    columns:
+      - name: data_abertura
+        description: "Data de âncora do agrupamento diário (Chave Primária do Dataset)."
+        tests:
+          - unique
+          - not_null
+  - name: ml_sla_classification_dataset
+    description: "Matriz de treino e teste para o classificador de risco de SLA (XGBoost/Random Forest). Totalmente blindada contra Data Leakage, contendo apenas variáveis conhecidas na abertura do ticket."
+    columns:
+      - name: incident_id
+        description: "Chave comercial exclusiva do incidente para tracking de performance do modelo."
+        tests:
+          - unique
+          - not_null
+      - name: target_risco_sla
+        description: "Variável alvo (Target). 1 para estouro de SLA, 0 para atendimento dentro do prazo."
+        tests:
+          - accepted_values:
+              values: [0, 1]
+  - name: ml_cluster_dataset
+    description: "Dataset completo de ciclo de vida (causa e efeito) para o modelo de clusterização e segmentação de perfis de incidentes no Python."
+    columns:
+      - name: incident_id
+        description: "Código identificador exclusivo do ticket utilizado para mapeamento pós-clusterização."
+        tests:
+          - unique
+          - not_null
+      

@@ -1,0 +1,99 @@
+version: 2
+
+models:
+  - name: dim_produto_categoria
+    description: "Dimensão unificada de produtos e suas respectivas categorias/subcategorias para otimização de performance no Power BI."
+    columns:
+      - name: dim_produto_categoria_sk
+        description: "Chave substituta (Surrogate Key) primária obtida através do hash MD5 dos três atributos combinados."
+        tests:
+          - unique
+          - not_null
+  - name: dim_grupo
+    description: "Tabela dimensão que armazena as equipes e grupos de suporte designados para o atendimento dos chamados. Variável de alto impacto para análise preditiva de risco de SLA."
+    columns:
+      - name: dim_grupo_sk
+        description: "Chave substituta (Surrogate Key) primária gerada via hash MD5 do nome do grupo designado."
+        tests:
+          - unique
+          - not_null
+      - name: grupo_designado
+        description: "Nome textual da equipe responsável pelo ticket de incidentes."
+  - name: dim_tempo
+    description: "Tabela dimensão de calendário analítico baseada na data de abertura do incidente. Contém atributos temporais expandidos para análise de sazonalidade no Prophet e relatórios no Power BI."
+    columns:
+      - name: dim_tempo_sk
+        description: "Chave substituta (Surrogate Key) primária obtida através do hash MD5 da data pura de abertura."
+        tests:
+          - unique
+          - not_null
+      - name: data_abertura
+        description: "Data pura do incidente (Ano-Mês-Dia) utilizada como âncora temporal."
+  - name: dim_status
+    description: "Tabela dimensão que armazena o status, códigos de fechamento do ticket e a flag de elegibilidade contratual para metas de KPI."
+    columns:
+      - name: dim_status_sk
+        description: "Chave substituta (Surrogate Key) primária gerada via hash MD5 da combinação entre Status e Código de Fechamento."
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Estado atual ou final do incidente (Ex: Encerrado, Resolvido)."
+  - name: dim_prioridade
+    description: "Tabela dimensão contendo os níveis de prioridade mapeados, thresholds contratuais de SLA em horas e agrupamentos de criticidade para atendimento dos requisitos do desafio (análise P2 e P3)."
+    columns:
+      - name: dim_prioridade_sk
+        description: "Chave substituta (Surrogate Key) primária gerada via hash MD5 do número identificador da prioridade."
+        tests:
+          - unique
+          - not_null
+      - name: prioridade_num
+        description: "Código numérico purificado da prioridade (1 a 5)."
+  - name: dim_abertura
+    description: "Dimensão de contexto intradiário baseada no timestamp exato de abertura do incidente. Essencial para capturar padrões de picos operacionais, comportamento de turnos e risco em horários de sobreaviso."
+    columns:
+      - name: dim_abertura_sk
+        description: "Chave substituta (Surrogate Key) primária obtida através do hash MD5 do timestamp completo de abertura."
+        tests:
+          - unique
+          - not_null
+      - name: aberto_at
+        description: "Timestamp original bruto de abertura guardado para cruzamentos finos."
+  - name: fct_incidents
+    description: "Tabela fato central do Star Schema contendo métricas operacionais e chaves substitutas para cruzamento com as dimensões de incidentes."
+    columns:
+      - name: incident_sk
+        description: "Chave substituta primária da linha do incidente."
+        tests:
+          - unique
+          - not_null
+      - name: dim_produto_categoria_sk
+        tests:
+          - relationships:
+              to: ref('dim_produto_categoria')
+              field: dim_produto_categoria_sk
+      - name: dim_grupo_sk
+        tests:
+          - relationships:
+              to: ref('dim_grupo')
+              field: dim_grupo_sk
+      - name: dim_tempo_sk
+        tests:
+          - relationships:
+              to: ref('dim_tempo')
+              field: dim_tempo_sk
+      - name: dim_status_sk
+        tests:
+          - relationships:
+              to: ref('dim_status')
+              field: dim_status_sk
+      - name: dim_prioridade_sk
+        tests:
+          - relationships:
+              to: ref('dim_prioridade')
+              field: dim_prioridade_sk
+      - name: dim_abertura_sk
+        tests:
+          - relationships:
+              to: ref('dim_abertura')
+              field: dim_abertura_sk
