@@ -9,7 +9,6 @@ models:
         tests:
           - unique
           - not_null
-
   - name: dim_grupo
     description: "Tabela dimensão que armazena as equipes e grupos de suporte designados para o atendimento dos chamados. Variável de alto impacto para análise preditiva de risco de SLA."
     columns:
@@ -18,7 +17,6 @@ models:
         tests:
           - unique
           - not_null
-
       - name: grupo_designado
         description: "Nome textual da equipe responsável pelo ticket de incidentes."
   - name: dim_tempo
@@ -29,7 +27,6 @@ models:
         tests:
           - unique
           - not_null
-
       - name: data_abertura
         description: "Data pura do incidente (Ano-Mês-Dia) utilizada como âncora temporal."
   - name: dim_status
@@ -42,3 +39,13 @@ models:
           - not_null
       - name: status
         description: "Estado atual ou final do incidente (Ex: Encerrado, Resolvido)."
+  - name: dim_prioridade
+    description: "Tabela dimensão contendo os níveis de prioridade mapeados, thresholds contratuais de SLA em horas e agrupamentos de criticidade para atendimento dos requisitos do desafio (análise P2 e P3)."
+    columns:
+      - name: dim_prioridade_sk
+        description: "Chave substituta (Surrogate Key) primária gerada via hash MD5 do número identificador da prioridade."
+        tests:
+          - unique
+          - not_null
+      - name: prioridade_num
+        description: "Código numérico purificado da prioridade (1 a 5)."
