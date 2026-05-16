@@ -17,3 +17,16 @@ models:
         tests:
           - unique
           - not_null
+  - name: ml_sla_classification_dataset
+    description: "Matriz de treino e teste para o classificador de risco de SLA (XGBoost/Random Forest). Totalmente blindada contra Data Leakage, contendo apenas variáveis conhecidas na abertura do ticket."
+    columns:
+      - name: incident_id
+        description: "Chave comercial exclusiva do incidente para tracking de performance do modelo."
+        tests:
+          - unique
+          - not_null
+      - name: target_risco_sla
+        description: "Variável alvo (Target). 1 para estouro de SLA, 0 para atendimento dentro do prazo."
+        tests:
+          - accepted_values:
+              values: [0, 1]
