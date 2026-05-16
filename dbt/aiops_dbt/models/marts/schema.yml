@@ -49,3 +49,13 @@ models:
           - not_null
       - name: prioridade_num
         description: "Código numérico purificado da prioridade (1 a 5)."
+  - name: dim_abertura
+    description: "Dimensão de contexto intradiário baseada no timestamp exato de abertura do incidente. Essencial para capturar padrões de picos operacionais, comportamento de turnos e risco em horários de sobreaviso."
+    columns:
+      - name: dim_abertura_sk
+        description: "Chave substituta (Surrogate Key) primária obtida através do hash MD5 do timestamp completo de abertura."
+        tests:
+          - unique
+          - not_null
+      - name: aberto_at
+        description: "Timestamp original bruto de abertura guardado para cruzamentos finos."
