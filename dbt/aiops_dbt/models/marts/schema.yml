@@ -9,6 +9,7 @@ models:
         tests:
           - unique
           - not_null
+
   - name: dim_grupo
     description: "Tabela dimensão que armazena as equipes e grupos de suporte designados para o atendimento dos chamados. Variável de alto impacto para análise preditiva de risco de SLA."
     columns:
@@ -17,5 +18,27 @@ models:
         tests:
           - unique
           - not_null
+
       - name: grupo_designado
         description: "Nome textual da equipe responsável pelo ticket de incidentes."
+  - name: dim_tempo
+    description: "Tabela dimensão de calendário analítico baseada na data de abertura do incidente. Contém atributos temporais expandidos para análise de sazonalidade no Prophet e relatórios no Power BI."
+    columns:
+      - name: dim_tempo_sk
+        description: "Chave substituta (Surrogate Key) primária obtida através do hash MD5 da data pura de abertura."
+        tests:
+          - unique
+          - not_null
+
+      - name: data_abertura
+        description: "Data pura do incidente (Ano-Mês-Dia) utilizada como âncora temporal."
+  - name: dim_status
+    description: "Tabela dimensão que armazena o status, códigos de fechamento do ticket e a flag de elegibilidade contratual para metas de KPI."
+    columns:
+      - name: dim_status_sk
+        description: "Chave substituta (Surrogate Key) primária gerada via hash MD5 da combinação entre Status e Código de Fechamento."
+        tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Estado atual ou final do incidente (Ex: Encerrado, Resolvido)."
