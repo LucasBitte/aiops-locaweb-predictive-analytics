@@ -59,3 +59,41 @@ models:
           - not_null
       - name: aberto_at
         description: "Timestamp original bruto de abertura guardado para cruzamentos finos."
+  - name: fct_incidents
+    description: "Tabela fato central do Star Schema contendo métricas operacionais e chaves substitutas para cruzamento com as dimensões de incidentes."
+    columns:
+      - name: incident_sk
+        description: "Chave substituta primária da linha do incidente."
+        tests:
+          - unique
+          - not_null
+      - name: dim_produto_categoria_sk
+        tests:
+          - relationships:
+              to: ref('dim_produto_categoria')
+              field: dim_produto_categoria_sk
+      - name: dim_grupo_sk
+        tests:
+          - relationships:
+              to: ref('dim_grupo')
+              field: dim_grupo_sk
+      - name: dim_tempo_sk
+        tests:
+          - relationships:
+              to: ref('dim_tempo')
+              field: dim_tempo_sk
+      - name: dim_status_sk
+        tests:
+          - relationships:
+              to: ref('dim_status')
+              field: dim_status_sk
+      - name: dim_prioridade_sk
+        tests:
+          - relationships:
+              to: ref('dim_prioridade')
+              field: dim_prioridade_sk
+      - name: dim_abertura_sk
+        tests:
+          - relationships:
+              to: ref('dim_abertura')
+              field: dim_abertura_sk
