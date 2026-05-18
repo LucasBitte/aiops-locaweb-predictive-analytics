@@ -1,0 +1,19 @@
+# Requirements para Pipeline Silver
+# Apache Glue para transformação Bronze → Silver
+
+# === GLUE RUNTIME ===
+# Já inclusos no Glue 4.0:
+# - pyspark==3.3.x
+# - python==3.9+
+
+# === TESTES LOCAIS (DEV) ===
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# === OPCIONAL: LocalStack para testes de S3 ===
+# moto[s3]==4.2.0  # Mock de S3 em testes
+
+# === UTILIDADES ===
+# Já inclusos via pyspark:
+# - pandas
+# - numpy
