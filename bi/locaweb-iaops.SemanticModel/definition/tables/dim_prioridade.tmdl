@@ -1,0 +1,68 @@
+table dim_prioridade
+	lineageTag: ff8c7732-80b2-444e-b3c0-521515092ca3
+
+	column dim_prioridade_sk
+		dataType: string
+		lineageTag: 843fe9d1-254e-4b4d-aeac-0fa2cec221f4
+		summarizeBy: none
+		sourceColumn: dim_prioridade_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioridade_num
+		dataType: int64
+		formatString: 0
+		lineageTag: d4a863c1-ee50-42a6-aa1c-dbab38e9c52a
+		summarizeBy: none
+		sourceColumn: prioridade_num
+
+		annotation SummarizationSetBy = Automatic
+
+	column prioridade_texto
+		dataType: string
+		lineageTag: 884facf7-e392-477b-ab7b-f613bcdeee36
+		summarizeBy: none
+		sourceColumn: prioridade_texto
+
+		annotation SummarizationSetBy = Automatic
+
+	column bucket_prioridade
+		dataType: string
+		lineageTag: d04cad4b-4869-4001-ab53-1d61001ebda7
+		summarizeBy: none
+		sourceColumn: bucket_prioridade
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_criticidade
+		dataType: string
+		lineageTag: 718a778a-5085-470a-b569-7d000ec42a57
+		summarizeBy: none
+		sourceColumn: nivel_criticidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column threshold_sla_horas
+		dataType: double
+		lineageTag: 2fa42bd3-d833-466b-81ba-46c83b1b4007
+		summarizeBy: none
+		sourceColumn: threshold_sla_horas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_prioridade = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data\gold"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_prioridade parquet" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\",Name="dim_prioridade.parquet"]}[Content],
+				    #"Parquet importado" = Parquet.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_prioridade parquet")
+				in
+				    #"Parquet importado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

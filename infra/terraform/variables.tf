@@ -10,8 +10,8 @@ variable "aws_profile" {
   default     = "aiops-project"
 }
 
-variable "bucket_name" {
-  description = "Nome único do bucket S3"
+variable "rds_password" {
+  description = "Senha do banco de dados RDS PostgreSQL"
   type        = string
-  default     = "aiops-locaweb-datalake-2026" # <--- MUDE ESTE NOME (deve ser único globalmente)
+  sensitive   = true
 }

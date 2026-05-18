@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "locaweb-iaops"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "145fbcc3-6928-4aea-ac00-7f0884ee765a"
+  }
+}

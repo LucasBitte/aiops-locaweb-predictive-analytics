@@ -1,0 +1,49 @@
+table dim_produto_categoria
+	lineageTag: ffe9ce7f-0e7b-4864-ac00-e12656da1a18
+
+	column dim_produto_categoria_sk
+		dataType: string
+		lineageTag: 64ce36d3-7e7f-49b3-8dfa-4efd13a31a3a
+		summarizeBy: none
+		sourceColumn: dim_produto_categoria_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto
+		dataType: string
+		lineageTag: 38776b4c-1c46-4fa3-ac6a-e754d2fcd4dc
+		summarizeBy: none
+		sourceColumn: produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria
+		dataType: string
+		lineageTag: 7c2c78c1-d6bc-46a9-9c00-fe0fe21e0d1b
+		summarizeBy: none
+		sourceColumn: categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column subcategoria
+		dataType: string
+		lineageTag: fa670ae2-90a6-4437-9900-cec964e415a8
+		summarizeBy: none
+		sourceColumn: subcategoria
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_produto_categoria = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data\gold"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_produto_categoria parquet" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\",Name="dim_produto_categoria.parquet"]}[Content],
+				    #"Parquet importado" = Parquet.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_produto_categoria parquet")
+				in
+				    #"Parquet importado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

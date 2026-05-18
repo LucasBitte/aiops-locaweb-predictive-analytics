@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "locaweb-iaops"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e91fbee2-20ad-4073-adb8-62b6494fc360"
+  }
+}
