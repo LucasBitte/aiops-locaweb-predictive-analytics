@@ -1,0 +1,242 @@
+table fct_incidents
+	lineageTag: 55b6629e-2226-45e2-b629-25ba1bac93fa
+
+	column incident_sk
+		dataType: string
+		lineageTag: e4935f44-99a4-4a5c-a975-6918b053402e
+		summarizeBy: none
+		sourceColumn: incident_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dim_produto_categoria_sk
+		dataType: string
+		lineageTag: aea22492-df3e-405a-b331-d3af11a54eea
+		summarizeBy: none
+		sourceColumn: dim_produto_categoria_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dim_grupo_sk
+		dataType: string
+		lineageTag: a0b882bd-3026-4c8f-9773-123766e547a8
+		summarizeBy: none
+		sourceColumn: dim_grupo_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dim_tempo_sk
+		dataType: string
+		lineageTag: de015882-8f18-424f-b664-9eb0bd3972a7
+		summarizeBy: none
+		sourceColumn: dim_tempo_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dim_status_sk
+		dataType: string
+		lineageTag: 8230857f-1014-4e65-a358-c0bfba66a8d4
+		summarizeBy: none
+		sourceColumn: dim_status_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dim_prioridade_sk
+		dataType: string
+		lineageTag: a99ac086-4323-4f6d-aa9e-41f94e013239
+		summarizeBy: none
+		sourceColumn: dim_prioridade_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column dim_abertura_sk
+		dataType: string
+		lineageTag: 1f755482-dd6c-4d4a-9323-d4fe4e22658d
+		summarizeBy: none
+		sourceColumn: dim_abertura_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column incident_id
+		dataType: string
+		lineageTag: 3955bc01-c0ae-4577-9809-77cc97ea7811
+		summarizeBy: none
+		sourceColumn: incident_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column duracao_horas
+		dataType: double
+		lineageTag: 13e27453-49d4-4a48-9d90-d51b61a4a18c
+		summarizeBy: sum
+		sourceColumn: duracao_horas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column duracao_segundos
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dc68958-13d7-433f-934f-b8235817c83f
+		summarizeBy: sum
+		sourceColumn: duracao_segundos
+
+		annotation SummarizationSetBy = Automatic
+
+	column kpi_status_int
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b5ace1c-4134-496f-9683-bfdc95aadbd1
+		summarizeBy: sum
+		sourceColumn: kpi_status_int
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_risco_sla
+		dataType: int64
+		formatString: 0
+		lineageTag: da8431de-bac2-4abc-b9ef-abe8d6bad940
+		summarizeBy: sum
+		sourceColumn: target_risco_sla
+
+		annotation SummarizationSetBy = Automatic
+
+	column exige_intervencao
+		dataType: int64
+		formatString: 0
+		lineageTag: dea3aaf5-bfee-4362-a540-71d0a0df8865
+		summarizeBy: sum
+		sourceColumn: exige_intervencao
+
+		annotation SummarizationSetBy = Automatic
+
+	column possui_pai
+		dataType: int64
+		formatString: 0
+		lineageTag: 24f24c76-5813-4163-a258-5fd002161087
+		summarizeBy: sum
+		sourceColumn: possui_pai
+
+		annotation SummarizationSetBy = Automatic
+
+	column horas_ate_resolucao
+		dataType: double
+		lineageTag: 507288bb-f6d6-4080-adc3-f06441d887c6
+		summarizeBy: sum
+		sourceColumn: horas_ate_resolucao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column foi_resolvido
+		dataType: int64
+		formatString: 0
+		lineageTag: f6f67109-53d7-4952-9df4-a2fcecd57143
+		summarizeBy: sum
+		sourceColumn: foi_resolvido
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_filho_de_problema
+		dataType: int64
+		formatString: 0
+		lineageTag: 3d0b43d7-9bc6-4ce0-b4d0-17509c7a9588
+		summarizeBy: sum
+		sourceColumn: is_filho_de_problema
+
+		annotation SummarizationSetBy = Automatic
+
+	column triagem_incompleta
+		dataType: int64
+		formatString: 0
+		lineageTag: 55dc668c-0ae1-4691-929b-c3d46ae74e2d
+		summarizeBy: sum
+		sourceColumn: triagem_incompleta
+
+		annotation SummarizationSetBy = Automatic
+
+	column fechado_sem_tecnico
+		dataType: int64
+		formatString: 0
+		lineageTag: 6f5c1c43-4546-43ff-83e8-bd6bc3afa146
+		summarizeBy: sum
+		sourceColumn: fechado_sem_tecnico
+
+		annotation SummarizationSetBy = Automatic
+
+	column excedeu_tempo_esperado
+		dataType: int64
+		formatString: 0
+		lineageTag: 4a66ac51-30e7-4fae-b1e8-f3de0d556c6e
+		summarizeBy: sum
+		sourceColumn: excedeu_tempo_esperado
+
+		annotation SummarizationSetBy = Automatic
+
+	column score_risco_operacional
+		dataType: int64
+		formatString: 0
+		lineageTag: b103e4bf-f8ff-4f2a-b8b6-dfc969857434
+		summarizeBy: sum
+		sourceColumn: score_risco_operacional
+
+		annotation SummarizationSetBy = Automatic
+
+	column aberto_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f1a9761d-6da8-4e0f-a9a3-2a01d5b88263
+		summarizeBy: none
+		sourceColumn: aberto_at
+
+		variation Variation
+			isDefault
+			relationship: 3d52fa6b-7c7a-4207-b491-43b4d2811b86
+			defaultHierarchy: LocalDateTable_01979b92-c205-4a4c-97ab-81f6ae702200.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column resolvido_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8b1e2eda-6a4c-476f-b9cd-da443844a805
+		summarizeBy: none
+		sourceColumn: resolvido_at
+
+		variation Variation
+			isDefault
+			relationship: 453307c1-3e8e-442d-9aa0-6c680324a1a5
+			defaultHierarchy: LocalDateTable_f00a1e56-410a-4162-86a9-5c3e44c0c21b.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column encerrado_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 36ae048d-786e-4ef8-8f7c-8dd4a467684e
+		summarizeBy: none
+		sourceColumn: encerrado_at
+
+		variation Variation
+			isDefault
+			relationship: dddd43e9-32fb-4c06-ae55-7672687d0b7e
+			defaultHierarchy: LocalDateTable_1e0d789a-8dab-4067-b1d3-59acbce3a3b6.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_incidents = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data\gold"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_fct_incidents parquet" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\",Name="fct_incidents.parquet"]}[Content],
+				    #"Parquet importado" = Parquet.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_fct_incidents parquet")
+				in
+				    #"Parquet importado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

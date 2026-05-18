@@ -1,0 +1,51 @@
+relationship 3d52fa6b-7c7a-4207-b491-43b4d2811b86
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_incidents.aberto_at
+	toColumn: LocalDateTable_01979b92-c205-4a4c-97ab-81f6ae702200.Date
+
+relationship 453307c1-3e8e-442d-9aa0-6c680324a1a5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_incidents.resolvido_at
+	toColumn: LocalDateTable_f00a1e56-410a-4162-86a9-5c3e44c0c21b.Date
+
+relationship dddd43e9-32fb-4c06-ae55-7672687d0b7e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_incidents.encerrado_at
+	toColumn: LocalDateTable_1e0d789a-8dab-4067-b1d3-59acbce3a3b6.Date
+
+relationship AutoDetected_fd4d0f4c-c096-4889-a716-dd5dacca648c
+	fromColumn: fct_incidents.dim_grupo_sk
+	toColumn: dim_grupo.dim_grupo_sk
+
+relationship 04f3fd7d-ce23-46bf-91f2-0462496eeea1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_abertura.aberto_at
+	toColumn: LocalDateTable_548a8d84-cd89-4253-b160-0ccc0033ea7b.Date
+
+relationship AutoDetected_f441e200-ec30-4a3b-a297-7e572ef6213b
+	fromColumn: fct_incidents.dim_prioridade_sk
+	toColumn: dim_prioridade.dim_prioridade_sk
+
+relationship AutoDetected_3d77e8c0-e1d8-45e0-bb90-39e5179107c0
+	fromColumn: fct_incidents.dim_abertura_sk
+	toColumn: dim_abertura.dim_abertura_sk
+
+relationship 5eb3c61e-a223-489c-aa52-d19e8ac6f05a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_tempo.data_abertura
+	toColumn: LocalDateTable_f81c5f45-2e6b-467a-9adf-81614b4b87e6.Date
+
+relationship AutoDetected_73604f92-a338-4b63-88cf-aeaa381ba21a
+	fromColumn: fct_incidents.dim_produto_categoria_sk
+	toColumn: dim_produto_categoria.dim_produto_categoria_sk
+
+relationship AutoDetected_fbffe2d1-a402-4f2b-acaa-10080ab3767d
+	fromColumn: fct_incidents.dim_tempo_sk
+	toColumn: dim_tempo.dim_tempo_sk
+
+relationship 23f5c368-c03e-0ddd-f2e0-a9a45acee844
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: dim_status.dim_status_sk
+	toColumn: fct_incidents.dim_status_sk
+

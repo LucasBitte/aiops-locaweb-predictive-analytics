@@ -1,0 +1,30 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["fct_incidents","dim_grupo","dim_abertura","dim_prioridade","dim_produto_categoria","dim_status","dim_tempo"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fct_incidents
+ref table DateTableTemplate_c9016950-5361-4edf-99a5-a03814dd8af9
+ref table LocalDateTable_01979b92-c205-4a4c-97ab-81f6ae702200
+ref table LocalDateTable_f00a1e56-410a-4162-86a9-5c3e44c0c21b
+ref table LocalDateTable_1e0d789a-8dab-4067-b1d3-59acbce3a3b6
+ref table dim_grupo
+ref table dim_abertura
+ref table LocalDateTable_548a8d84-cd89-4253-b160-0ccc0033ea7b
+ref table dim_prioridade
+ref table dim_produto_categoria
+ref table dim_status
+ref table dim_tempo
+ref table LocalDateTable_f81c5f45-2e6b-467a-9adf-81614b4b87e6
+
+ref cultureInfo pt-BR
+

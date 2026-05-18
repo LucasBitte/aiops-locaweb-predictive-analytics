@@ -1,0 +1,33 @@
+table dim_grupo
+	lineageTag: 806e8b11-ffed-4e0f-9ea9-6bd6cbbd6d37
+
+	column dim_grupo_sk
+		dataType: string
+		lineageTag: 0722a15b-76b4-434f-a67f-11c58d04f9cf
+		summarizeBy: none
+		sourceColumn: dim_grupo_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column grupo_designado
+		dataType: string
+		lineageTag: 5413ed11-5cbf-4c08-8bee-17497094d5a5
+		summarizeBy: none
+		sourceColumn: grupo_designado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_grupo = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data\gold"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_grupo parquet" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\",Name="dim_grupo.parquet"]}[Content],
+				    #"Parquet importado" = Parquet.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_grupo parquet")
+				in
+				    #"Parquet importado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

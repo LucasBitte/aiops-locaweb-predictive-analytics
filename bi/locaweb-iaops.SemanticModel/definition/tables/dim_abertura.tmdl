@@ -1,0 +1,74 @@
+table dim_abertura
+	lineageTag: 3166d048-73a9-4880-b617-3142fddde5bf
+
+	column dim_abertura_sk
+		dataType: string
+		lineageTag: 5b0745f3-2b35-482f-a431-147a77d79c9d
+		summarizeBy: none
+		sourceColumn: dim_abertura_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column aberto_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6a5a230c-b2a1-42b2-b717-a1b453256a4a
+		summarizeBy: none
+		sourceColumn: aberto_at
+
+		variation Variation
+			isDefault
+			relationship: 04f3fd7d-ce23-46bf-91f2-0462496eeea1
+			defaultHierarchy: LocalDateTable_548a8d84-cd89-4253-b160-0ccc0033ea7b.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column hora_abertura
+		dataType: int64
+		formatString: 0
+		lineageTag: 737ca39a-e998-4e47-b9d2-1ff9538346b9
+		summarizeBy: sum
+		sourceColumn: hora_abertura
+
+		annotation SummarizationSetBy = Automatic
+
+	column turno_abertura
+		dataType: string
+		lineageTag: 33cff07d-4da9-435b-9733-7da3c1552f3c
+		summarizeBy: none
+		sourceColumn: turno_abertura
+
+		annotation SummarizationSetBy = Automatic
+
+	column fora_horario_comercial
+		dataType: int64
+		formatString: 0
+		lineageTag: 3551ba61-97a3-4d78-befc-a31adb330a77
+		summarizeBy: sum
+		sourceColumn: fora_horario_comercial
+
+		annotation SummarizationSetBy = Automatic
+
+	column abriu_fim_de_semana
+		dataType: int64
+		formatString: 0
+		lineageTag: 01f90795-ad7e-4129-9a42-6a9650d338a1
+		summarizeBy: sum
+		sourceColumn: abriu_fim_de_semana
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_abertura = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data\gold"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_abertura parquet" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\",Name="dim_abertura.parquet"]}[Content],
+				    #"Parquet importado" = Parquet.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_abertura parquet")
+				in
+				    #"Parquet importado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

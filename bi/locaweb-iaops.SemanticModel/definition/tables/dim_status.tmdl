@@ -1,0 +1,49 @@
+table dim_status
+	lineageTag: 43597704-34f8-491e-bce7-b4c40f44ec8d
+
+	column dim_status_sk
+		dataType: string
+		lineageTag: c09734d9-720e-4198-8b20-0b1a2877222c
+		summarizeBy: none
+		sourceColumn: dim_status_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: 8e164eab-6f42-4d4f-8479-04e6190f4508
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column codigo_fechamento
+		dataType: string
+		lineageTag: 4d4d0641-f1b9-4247-8a59-5f0af319deb6
+		summarizeBy: none
+		sourceColumn: codigo_fechamento
+
+		annotation SummarizationSetBy = Automatic
+
+	column entrou_kpi
+		dataType: string
+		lineageTag: 6dc859cb-28de-414a-b44b-fbe273484d97
+		summarizeBy: none
+		sourceColumn: entrou_kpi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_status = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data\gold"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_status parquet" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\",Name="dim_status.parquet"]}[Content],
+				    #"Parquet importado" = Parquet.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\gold\_dim_status parquet")
+				in
+				    #"Parquet importado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
