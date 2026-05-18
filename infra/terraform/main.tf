@@ -16,13 +16,11 @@ module "storage" {
 # ==========================================
 # 3. BANCO DE DADOS (RDS PostgreSQL + Glue)
 # ==========================================
-# ⚠️ DESCOMENTAR APENAS QUANDO PRONTO PARA USAR
-# Nota: RDS gera custos mesmo em Free Tier após 12 meses
+# Descomentar apenas quando pronto para usar
+# Nota: RDS gera custos mesmo em Free Tier apos 12 meses
 # Para aplicar: terraform apply -var="rds_password=SenhaForte123!"
-/*
 module "database" {
   source       = "./modules/database"
   subnet_ids   = module.network.subnet_ids
   rds_password = var.rds_password
 }
-*/
