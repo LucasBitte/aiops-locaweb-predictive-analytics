@@ -13,8 +13,3 @@ output "rds_username" {
   value       = aws_db_instance.gold_db.username
   description = "Usuário padrão do RDS"
 }
-
-output "glue_catalog_database" {
-  value       = aws_glue_catalog_database.aiops_catalog.name
-  description = "Nome do banco de dados do AWS Glue Catalog"
-}
