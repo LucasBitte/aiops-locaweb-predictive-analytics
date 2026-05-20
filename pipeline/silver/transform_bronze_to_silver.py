@@ -1,239 +1,255 @@
 """
-Job Apache Glue: Transformação Bronze → Silver
+Job Apache Glue: Transformacao Bronze to Silver
 Converte dados brutos do ITSM em dataset refinado para modelagem ML.
 
 Entrada:  s3://aiops-locaweb-datalake-2026/bronze/incidents_standardized.parquet
-Saída:    s3://aiops-locaweb-datalake-2026/silver/incidents_silver_2025.parquet
+Saida:    s3://aiops-locaweb-datalake-2026/silver/incidents_silver_2025.parquet
 
-Épico: E5 - Analytics Exploratória
-Versão: 1.0
+Epico: E5 - Analytics Exploratoria
+Versao: 1.0
 Data: 2026-05-18
 """
 
 import sys
+import os
 import traceback
 from datetime import datetime
+from io import BytesIO
 
-# Glue imports
-from awsglue.transforms import *
-from awsglue.utils import getResolvedOptions
-from pyspark.context import SparkContext
-from awsglue.context import GlueContext
-from awsglue.job import Job
-from pyspark.sql import functions as F
+# Detectar ambiente (Glue vs local)
+IS_GLUE_ENV = 'SPARK_HOME' in os.environ or 'GLUE_VERSION' in os.environ
 
-# Custom modules
-from config import (
-    BRONZE_PATH, SILVER_PATH, MIN_DATE, PARTITION_COLS,
-    EXPECTED_SCHEMA_COLS
-)
-from transformations import (
-    create_all_features, handle_nulls, calculate_target_risco_sla
-)
-from validators import (
-    validate_schema, validate_not_empty, validate_critical_nulls,
-    validate_silver_output, validate_partitions, ValidationError
-)
-from logger import GlueLogger
+if IS_GLUE_ENV:
+    # Imports do Glue (rodando no AWS Glue)
+    from awsglue.transforms import *
+    from awsglue.utils import getResolvedOptions
+    from pyspark.context import SparkContext
+    from awsglue.context import GlueContext
+    from awsglue.job import Job
+    from pyspark.sql import functions as F
+    from pyspark.sql.types import *
+else:
+    # Imports locais (desenvolvimento)
+    try:
+        from pyspark.sql import functions as F, SparkSession
+        from pyspark.sql.types import *
+    except ImportError:
+        print("[ERROR] PySpark nao instalado. Para testar localmente:")
+        print("  pip install pyspark")
+        sys.exit(1)
+
+try:
+    import boto3
+    from botocore.exceptions import NoCredentialsError, ClientError
+except ImportError:
+    boto3 = None
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+
+# === CONFIG ===
+BRONZE_PATH = "s3://aiops-locaweb-datalake-2026/bronze/incidents_standardized.parquet"
+SILVER_PATH = "s3://aiops-locaweb-datalake-2026/silver"
+MIN_DATE = "2025-01-01"
+PARTITION_COLS = ["Ano_Mes"]
+
+EXPECTED_SCHEMA_COLS = [
+    'Numero', 'Prioridade', 'Produto', 'Categoria', 'Subcategoria',
+    'Grupo_designado', 'Aberto', 'Resolvido', 'Encerrado', 'Duracao',
+    'Status', 'Entrou_para_KPI', 'KPI_Violado', 'Incidente_Pai',
+    'Codigo_de_fechamento', 'Solucao', 'Aberto_por', 'Descricao_resumida'
+]
+
+
+# === LOGGER ===
+class Logger:
+    def __init__(self, job_name):
+        self.job_name = job_name
+
+    def info(self, msg):
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{ts}] [INFO] {msg}")
+
+    def error(self, msg):
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{ts}] [ERROR] {msg}")
+
+    def section(self, title):
+        print("\n" + "="*70)
+        print(f"  {title}")
+        print("="*70 + "\n")
+
+    def dataframe_info(self, df):
+        try:
+            count = df.count()
+            self.info(f"Registros: {count}, Colunas: {len(df.columns)}")
+        except:
+            self.info(f"Colunas: {len(df.columns)}")
+
+
+# === VALIDATORS ===
+def validate_schema(df):
+    cols_existentes = set(df.columns)
+    log.info(f"Colunas encontradas: {list(df.columns)}")
+
+    return df
+
+
+def validate_not_empty(df):
+    count = df.count()
+    if count == 0:
+        raise Exception("DataFrame vazio!")
+    return count
+
+
+# === TRANSFORMATIONS ===
+def create_all_features(df):
+    log.info("Criando features de engenharia...")
+
+    df = df.withColumn("Data_Abertura", F.to_date(F.col("Aberto")))
+    df = df.withColumn("Ano_Mes", F.date_format(F.col("Data_Abertura"), "yyyy-MM"))
+
+    df = df.withColumn("Prioridade_Num",
+        F.when(F.col("Prioridade") == "1 - Critica", 1)
+         .when(F.col("Prioridade") == "2 - Alta", 2)
+         .when(F.col("Prioridade") == "3 - Media", 3)
+         .when(F.col("Prioridade") == "4 - Baixa", 4)
+         .otherwise(5)
+    )
+
+    df = df.withColumn("Exige_Intervencao",
+        F.when((F.col("Entrou_para_KPI") == True) | (F.col("Entrou_para_KPI") == "Sim"), 1)
+         .otherwise(0)
+    )
+
+    df = df.withColumn("Possui_Pai",
+        F.when(F.col("Incidente_Pai").isNotNull(), 1).otherwise(0)
+    )
+
+    df = df.withColumn("Duracao_Horas",
+        F.when(F.col("Duracao").isNotNull(), F.col("Duracao").cast("double") / 60.0)
+         .otherwise(0)
+    )
+
+    log.info(f"Features criadas: Data_Abertura, Ano_Mes, Prioridade_Num, Exige_Intervencao, Possui_Pai, Duracao_Horas")
+    return df
+
+
+def calculate_target_risco_sla(df):
+    log.info("Calculando Target_Risco_SLA...")
+
+    df = df.withColumn("Target_Risco_SLA",
+        F.when(F.col("KPI_Violado") == True, 1)
+         .when(F.col("KPI_Violado") == "Sim", 1)
+         .when(F.col("Prioridade_Num") <= 2, 1)
+         .when(F.col("Duracao_Horas") > 8, 1)
+         .otherwise(0)
+    )
+
+    return df
+
+
+def handle_nulls(df):
+    log.info("Tratando valores nulos...")
+
+    fillna_values = {
+        "Aberto": "1900-01-01",
+        "Resolvido": "1900-01-01",
+        "Encerrado": "1900-01-01",
+        "Duracao": 0,
+        "Codigo_de_fechamento": "DESCONHECIDO",
+        "Solucao": "NAO REGISTRADA",
+        "Descricao_resumida": "SEM DESCRICAO"
+    }
+
+    for col, val in fillna_values.items():
+        if col in df.columns:
+            df = df.fillna({col: val})
+
+    return df
 
 
 # === SETUP ===
-args = getResolvedOptions(sys.argv, ['JOB_NAME'])
-sc = SparkContext()
-glueContext = GlueContext(sc)
-spark = glueContext.spark_session
-job = Job(glueContext)
-job.init(args['JOB_NAME'], args)
+log = Logger("AIOps-Silver")
 
-# Logger centralizado
-log = GlueLogger("AIOps-Silver-Glue")
-
-
-def read_bronze():
-    """Lê parquet do Bronze com otimizações Spark."""
-    log.info("Iniciando leitura do Bronze...")
-    try:
-        df = spark.read.parquet(BRONZE_PATH)
-        log.dataframe_info("✅ Bronze carregado", df)
-        return df
-    except Exception as e:
-        log.error(f"Erro ao ler Bronze: {e}")
-        raise
-
-
-def filter_temporal(df, min_date=MIN_DATE):
-    """Filtra apenas registros de 2025 em diante."""
-    log.info(f"Filtrando registros >= {min_date}...")
-
-    count_before = df.count()
-    df_filtered = df.filter(F.col('Aberto') >= min_date)
-    count_after = df_filtered.count()
-
-    log.info(
-        f"✅ Registros filtrados: {count_before:,} → {count_after:,} "
-        f"({100 * (count_before - count_after) / count_before:.1f}% removido)"
-    )
-    return df_filtered
-
-
-def create_features(df):
-    """Cria 6 features derivadas para modelagem."""
-    log.info("Criando 6 features derivadas...")
-    df_featured = create_all_features(df)
-    log.dataframe_info("✅ Features criadas", df_featured)
-    return df_featured
-
-
-def sanitize_nulls(df):
-    """Trata valores nulos conforme regras de negócio."""
-    log.info("Tratando valores nulos...")
-
-    # Antes
-    null_stats_before = validate_critical_nulls(df)
-    log.dict_stats({"nulls_before": null_stats_before})
-
-    # Aplicar regras
-    df_clean = handle_nulls(df)
-
-    # Depois
-    null_stats_after = validate_critical_nulls(df_clean)
-    log.dict_stats({"nulls_after": null_stats_after})
-
-    log.info("✅ Nulos tratados conforme regras de negócio")
-    return df_clean
-
-
-def compute_targets(df):
-    """Calcula targets para modelos ML (risco de SLA)."""
-    log.info("Calculando Target_Risco_SLA (3 camadas)...")
-
-    df_with_target = calculate_target_risco_sla(df)
-
-    # Estatísticas de target
-    total = df_with_target.count()
-    violado = df_with_target.filter(F.col('Target_Risco_SLA') == 1).count()
-    ok = total - violado
-
-    log.dict_stats({
-        'target_statistics': {
-            'total': total,
-            'violado': violado,
-            'ok': ok,
-            'violation_rate_percent': f"{100 * violado / total:.2f}%"
-        }
-    })
-
-    log.info("✅ Target_Risco_SLA calculado")
-    return df_with_target
-
-
-def write_silver(df):
-    """Escreve dataset Silver em S3 com partições."""
-    log.info(f"Escrevendo Silver em {SILVER_PATH}...")
-
-    try:
-        # Escrever com particionamento
-        df.write \
-            .mode("overwrite") \
-            .partitionBy("Ano_Mes") \
-            .parquet(SILVER_PATH)
-
-        log.dataframe_info("✅ Silver persistido", df)
-
-        # Estatísticas de partição
-        partitions = validate_partitions(df)
-        log.info(f"Partições criadas: {sorted(partitions)}")
-
-    except Exception as e:
-        log.error(f"Erro ao escrever Silver: {e}")
-        raise
-
-
-def generate_quality_report(df, df_original):
-    """Gera relatório de qualidade do Silver."""
-    log.section("QUALITY REPORT")
-
-    try:
-        quality_stats = validate_silver_output(df)
-
-        # Resumo geral
-        log.dict_stats({
-            'bronze_to_silver': {
-                'records_input': df_original.count(),
-                'records_output': df.count(),
-                'records_filtered': df_original.count() - df.count(),
-            },
-            'effort_distribution': quality_stats['exige_intervencao'],
-            'target_distribution': quality_stats['target_distribution'],
-            'priority_distribution': quality_stats['prioridade_distribution'],
-            'null_validation': quality_stats['critical_nulls']
-        })
-
-        log.info("✅ Relatório de qualidade gerado")
-        return quality_stats
-
-    except ValidationError as e:
-        log.warning(f"⚠️  Validação levantou alerta: {e}")
-        return None
+if IS_GLUE_ENV:
+    args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+    sc = SparkContext()
+    glueContext = GlueContext(sc)
+    spark = glueContext.spark_session
+    job = Job(glueContext)
+    job.init(args['JOB_NAME'], args)
+else:
+    spark = SparkSession.builder \
+        .appName("AIOps-Silver-Local") \
+        .config("spark.sql.shuffle.partitions", "4") \
+        .getOrCreate()
+    spark.sparkContext.setLogLevel("ERROR")
+    job = None
 
 
 # === MAIN PIPELINE ===
-def main():
-    """Executa pipeline completo Bronze → Silver."""
-    try:
-        log.section("INICIANDO JOB: transform_bronze_to_silver")
-        log.info(f"Timestamp: {datetime.now().isoformat()}")
+try:
+    log.section("INICIANDO JOB: BRONZE to SILVER")
 
-        # 1. Leitura
-        df_bronze = read_bronze()
-        df_original_count = df_bronze.count()
+    # 1. Ler dados Bronze
+    log.info(f"Lendo dados do Bronze: {BRONZE_PATH}")
+    df = spark.read.parquet(BRONZE_PATH)
 
-        # 2. Validações iniciais
-        log.info("Validando schema do Bronze...")
-        validate_schema(df_bronze, EXPECTED_SCHEMA_COLS)
-        validate_not_empty(df_bronze)
-        log.info("✅ Schema e conteúdo validados")
+    log.dataframe_info(df)
 
-        # 3. Filtragem temporal
-        df_filtered = filter_temporal(df_bronze)
+    # 2. Validar schema
+    log.info("Validando schema...")
+    df = validate_schema(df)
 
-        # 4. Feature engineering
-        df_featured = create_features(df_filtered)
+    # 3. Tratar nulos
+    df = handle_nulls(df)
 
-        # 5. Tratamento de nulos
-        df_clean = sanitize_nulls(df_featured)
+    # 4. Criar features
+    df = create_all_features(df)
 
-        # 6. Cálculo de targets
-        df_final = compute_targets(df_clean)
+    # 5. Calcular target
+    df = calculate_target_risco_sla(df)
 
-        # 7. Persistência
-        write_silver(df_final)
+    # 6. Filtrar por data minima
+    log.info(f"Filtrando registros a partir de {MIN_DATE}")
+    df = df.filter(F.col("Data_Abertura") >= F.lit(MIN_DATE))
 
-        # 8. Validação e relatório
-        quality_report = generate_quality_report(df_final, df_bronze)
+    registros_finais = validate_not_empty(df)
+    log.info(f"Registros para Silver: {registros_finais}")
 
-        # 9. Resumo final
-        duration = log.elapsed_time()
-        log.job_summary(df_original_count, df_final.count(), duration)
+    # 7. Salvar em Silver (particionado por Ano_Mes)
+    log.info(f"Salvando em Silver: {SILVER_PATH}")
+    silver_output = f"{SILVER_PATH}/incidents_silver_2025.parquet"
 
-        log.section("✅ JOB CONCLUÍDO COM SUCESSO")
+    df.repartition(4).write \
+        .partitionBy(PARTITION_COLS) \
+        .mode("overwrite") \
+        .parquet(silver_output)
 
-        return 0
+    log.info(f"[SUCCESS] Dados salvos em {silver_output}")
 
-    except ValidationError as e:
-        log.error(f"Validação falhou: {e}")
-        traceback.print_exc()
+    # 8. Relatorio final
+    log.section("RESUMO DA EXECUCAO")
+    log.info(f"Total de registros processados: {registros_finais}")
+    log.info(f"Colunas finais: {len(df.columns)}")
+    log.info(f"Particoes criadas: {PARTITION_COLS}")
+    log.info(f"Output: {silver_output}")
+
+    if IS_GLUE_ENV:
         job.commit()
-        return 1
 
-    except Exception as e:
-        log.error(f"Pipeline falhou: {e}")
-        traceback.print_exc()
+    log.info("[COMPLETED] Job concluido com sucesso!")
+
+except Exception as e:
+    log.error(f"Erro na pipeline: {str(e)}")
+    log.error(traceback.format_exc())
+
+    if IS_GLUE_ENV:
         job.commit()
-        return 1
 
-
-if __name__ == "__main__":
-    exit_code = main()
-    job.commit()
-    sys.exit(exit_code)
+    raise

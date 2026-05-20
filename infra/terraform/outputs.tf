@@ -23,6 +23,24 @@ output "bucket_arn" {
 }
 
 # ==========================================
+# OUTPUTS DO GLUE (E5)
+# ==========================================
+output "glue_job_name" {
+  value       = module.glue.glue_job_name
+  description = "Nome do job Glue: transform_bronze_to_silver"
+}
+
+output "glue_job_arn" {
+  value       = module.glue.glue_job_arn
+  description = "ARN do job Glue"
+}
+
+output "glue_script_location" {
+  value       = module.glue.script_s3_location
+  description = "Localização do script Python no S3"
+}
+
+# ==========================================
 # OUTPUTS DO DATABASE (descomente junto com o módulo)
 # ==========================================
 /*

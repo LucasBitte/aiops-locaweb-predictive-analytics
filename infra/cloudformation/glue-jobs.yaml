@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Create Glue Jobs for Bronze-Silver transformation (E4-E5)'
+
+Parameters:
+  S3Bucket:
+    Type: String
+    Default: aiops-locaweb-datalake-2026
+    Description: S3 bucket name for scripts
+
+  GlueRole:
+    Type: String
+    Default: arn:aws:iam::206226812451:role/aiops-glue-bronze-silver-role
+    Description: IAM role ARN for Glue jobs
+
+Resources:
+  XlsxToParquetJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: xlsx_to_parquet
+      Description: Convert XLSX to Parquet (Bronze stage)
+      Role: !Ref GlueRole
+      Command:
+        Name: pythonshell
+        ScriptLocation: !Sub 's3://${S3Bucket}/scripts/xlsx_to_parquet.py'
+        PythonVersion: '3'
+      DefaultArguments:
+        '--S3_BUCKET': !Ref S3Bucket
+      MaxRetries: 0
+      Timeout: 60
+      Tags:
+        Project: AIOps Locaweb
+        Epic: E4-E5
+        Stage: Bronze
+
+  BronzeToSilverJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: transform_bronze_to_silver
+      Description: Transform Bronze to Silver (Feature engineering)
+      Role: !Ref GlueRole
+      Command:
+        Name: glueetl
+        ScriptLocation: !Sub 's3://${S3Bucket}/scripts/transform_bronze_to_silver.py'
+        PythonVersion: '3'
+      GlueVersion: '4.0'
+      WorkerType: G.1X
+      NumberOfWorkers: 3
+      MaxRetries: 0
+      Timeout: 60
+      Tags:
+        Project: AIOps Locaweb
+        Epic: E5
+        Pipeline: Bronze-Silver
+
+Outputs:
+  XlsxToParquetJobName:
+    Description: Name of XLSX to Parquet Glue job
+    Value: !Ref XlsxToParquetJob
+
+  BronzeToSilverJobName:
+    Description: Name of Bronze to Silver Glue job
+    Value: !Ref BronzeToSilverJob
