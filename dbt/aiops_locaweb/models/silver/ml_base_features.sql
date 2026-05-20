@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    schema='silver',
+    tags=['features', 'daily']
+) }}
 
 /*
     Essa é minha camada intermediária — o coração da minha arquitetura de features.

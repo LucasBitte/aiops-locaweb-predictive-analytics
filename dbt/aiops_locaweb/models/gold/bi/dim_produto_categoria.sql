@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    schema='gold_bi',
+    tags=['dimension', 'bi']
+) }}
 
 SELECT DISTINCT
     -- Surrogate key robusta com delimitadores para evitar colisões de hash

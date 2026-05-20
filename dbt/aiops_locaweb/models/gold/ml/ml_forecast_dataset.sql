@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    schema='gold_ml',
+    tags=['ml_dataset', 'forecast', 'daily']
+) }}
 
 /*
     Esse mart alimenta meu modelo de Forecast (Prophet/ARIMA).

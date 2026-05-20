@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    schema='gold_ml',
+    tags=['ml_dataset', 'clustering']
+) }}
 
 /*
     Esse mart alimenta meu modelo de Clusterização (Modelo 06).

@@ -1,4 +1,8 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    schema='gold_bi',
+    tags=['fact', 'bi', 'star_schema']
+) }}
 
 /*
     Essa é minha tabela fato central do star schema.

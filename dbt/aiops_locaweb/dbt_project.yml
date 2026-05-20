@@ -20,7 +20,6 @@ models:
   aiops_locaweb:
     staging:
       +materialized: view
-      +schema: public
 
     silver:
       +materialized: table
@@ -29,7 +28,7 @@ models:
     gold:
       bi:
         +materialized: table
-        +schema: gold
+        +schema: gold_bi
       ml:
         +materialized: table
-        +schema: gold
+        +schema: gold_ml
