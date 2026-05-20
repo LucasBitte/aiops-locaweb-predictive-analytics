@@ -10,5 +10,3 @@ SELECT DISTINCT
     "Subcategoria"                                      AS subcategoria
 
 FROM {{ ref('stg_incidents') }}
-WHERE "Produto"   IS NOT NULL
-  AND "Categoria" IS NOT NULL

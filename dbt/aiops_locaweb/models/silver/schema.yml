@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: ml_base_features
+    description: "Base de features refinadas do Silver para uso nos modelos de ML. Contém todas as features de engenharia necessárias para Forecast, OLA Risk e Clustering."
+    columns:
+      - name: incident_id
+        description: "Identificador único do incidente (chave natural)."
+        tests:
+          - unique
+          - not_null
+      - name: data_abertura
+        description: "Data do incidente, base para particionamento e análises temporais."
+        tests:
+          - not_null
+      - name: ano_mes
+        description: "Partição YYYY-MM para otimizar queries e particionamento."
+      - name: target_risco_sla
+        description: "Target binário: 1 = Incidente em risco SLA, 0 = Normal."
+      - name: duracao_horas
+        description: "Duração do incidente em horas (feature crítica para risco)."
+      - name: prioridade_num
+        description: "Prioridade normalizada de 1-5."

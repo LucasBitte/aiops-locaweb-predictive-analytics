@@ -2,6 +2,6 @@ version: 2
 
 sources:
   - name: source_itsm
-    schema: dbt_dev
+    schema: public
     tables:
-      - name: raw_incidents_silver
+      - name: incidents_silver

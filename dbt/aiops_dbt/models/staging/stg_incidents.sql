@@ -1,1 +1,0 @@
-select * from {{ source('source_itsm', 'raw_incidents_silver') }}

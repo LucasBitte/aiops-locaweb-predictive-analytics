@@ -140,14 +140,13 @@ S3 Bronze
 | E2 | **Repositório** | ✅ | — |
 | E3 | **Infraestrutura AWS** | ✅ | — |
 | E4 | **Bronze** | ✅ | — |
-| E5 | **EDA + Silver (Glue)** | 🔄 | Eng. Dados Pt.1 |
-| E6 | **dbt Silver + Star Schema** | ⏳ | Eng. Dados Pt.2 |
-| E7 | **Gold ML (Python + Azure ML)** | ⏳ | Machine Learning |
-| E8 | **dbt Gold BI** | ⏳ | Eng. Dados Final |
-| E9 | **Power BI** | ⏳ | Business Intelligence |
-| E10 | **App Web** | ⏳ | Portal Executivo |
-| E11 | **Airflow** | ⏳ | Automação e Qualidade |
-| E12 | **Segurança e Observabilidade** | ⏳ | Solução Final |
+| E5 | **EDA + Silver (Glue)** | 🔄 | Eng. Dados  |
+| E6 | **Gold ML (Python + Azure ML)** | ⏳ | Machine Learning |
+| E7 | **dbt Gold BI** | ⏳ | Eng. Dados Final |
+| E8 | **Power BI** | ⏳ | Business Intelligence |
+| E9 | **App Web** | ⏳ | Portal Executivo |
+| E10 | **Airflow** | ⏳ | Automação e Qualidade |
+| E11 | **Segurança e Observabilidade** | ⏳ | Solução Final |
 | 🔁 | **Revisão e Melhorias** | ⏳ | Entrega Final |
 
 ---

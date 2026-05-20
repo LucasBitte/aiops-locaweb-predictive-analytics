@@ -19,7 +19,7 @@ SELECT DISTINCT
     -- de desfecho tenha sua própria linha na dimensão
     MD5(
         COALESCE("Status", 'sem_status') || '||' ||
-        COALESCE("Código_de_fechamento", 'sem_codigo')
+        COALESCE("Codigo_de_fechamento", 'sem_codigo')
     )                                                 AS dim_status_sk,
 
     -- Estado final do chamado no momento da extração.
@@ -29,12 +29,12 @@ SELECT DISTINCT
     -- Categoria do desfecho — como o chamado foi encerrado.
     -- Nulos foram tratados na silver como 'Não Encerrado'
     -- para representar chamados que ainda estavam ativos
-    COALESCE("Código_de_fechamento", 'Não Informado') AS codigo_fechamento,
+    COALESCE("Codigo_de_fechamento", 'Não Informado') AS codigo_fechamento,
 
     -- Flag contratual: esse chamado entrava nas metas de SLA?
     -- Alguns tipos de chamado são isentos por regra comercial —
     -- incluo aqui para filtrar corretamente nas análises de KPI
-    "Entrou_para_KPI?"                                AS entrou_kpi
+    "Entrou_para_KPI"                                AS entrou_kpi
 
 FROM {{ ref('stg_incidents') }}
 WHERE "Status" IS NOT NULL

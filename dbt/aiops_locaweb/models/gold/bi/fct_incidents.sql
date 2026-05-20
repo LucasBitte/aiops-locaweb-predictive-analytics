@@ -18,7 +18,7 @@ SELECT
     -- ─────────────────────────────────────────────────────────────
 
     -- Chave única da fato — gerada a partir do número do incidente
-    MD5(COALESCE("Número", ''))                                 AS incident_sk,
+    MD5(COALESCE("Numero", ''))                                 AS incident_sk,
 
     -- FK para dim_produto_categoria (Alinhada com delimitadores)
     MD5(COALESCE("Produto", '') || '||' || COALESCE("Categoria", '') || '||' || COALESCE("Subcategoria", '')) AS dim_produto_categoria_sk,
@@ -30,7 +30,7 @@ SELECT
     MD5(COALESCE("Data_Abertura"::text, ''))                    AS dim_tempo_sk,
 
     -- FK para dim_status — (Alinhada com delimitadores e fallbacks)
-    MD5(COALESCE("Status", 'sem_status') || '||' || COALESCE("Código_de_fechamento", 'sem_codigo')) AS dim_status_sk,
+    MD5(COALESCE("Status", 'sem_status') || '||' || COALESCE("Codigo_de_fechamento", 'sem_codigo')) AS dim_status_sk,
 
     -- FK para dim_prioridade — separei prioridade em dimensão própria
     MD5(COALESCE("Prioridade_Num"::text, ''))                   AS dim_prioridade_sk,
@@ -41,14 +41,14 @@ SELECT
     -- ─────────────────────────────────────────────────────────────
     -- Chave degenerada
     -- ─────────────────────────────────────────────────────────────
-    "Número"                                                    AS incident_id,
+    "Numero"                                                    AS incident_id,
 
     -- ─────────────────────────────────────────────────────────────
     -- Métricas brutas
     -- ─────────────────────────────────────────────────────────────
     "Duracao_Horas"                                             AS duracao_horas,
-    "Duração"                                                   AS duracao_segundos,
-    "KPI_Status_Int"                                            AS kpi_status_int,
+    "Duracao"                                                   AS duracao_segundos,
+    "KPI_Violado"                                               AS kpi_status_int,
     "Target_Risco_SLA"                                          AS target_risco_sla,
     "Exige_Intervencao"::int                                    AS exige_intervencao,
     "Possui_Pai"                                                AS possui_pai,
@@ -71,7 +71,7 @@ SELECT
     CASE WHEN "Subcategoria" = 'Não Informada'
         THEN 1 ELSE 0 END                                       AS triagem_incompleta,
 
-    CASE WHEN "Código_de_fechamento"
+    CASE WHEN "Codigo_de_fechamento"
         IN ('Resolvido pelo Usuário','Sem Descrição')
         THEN 1 ELSE 0 END                                       AS fechado_sem_tecnico,
 
@@ -89,7 +89,7 @@ SELECT
     (
         CASE WHEN "Target_Risco_SLA" = 1     THEN 3 ELSE 0 END +
         CASE WHEN "Prioridade_Num" <= 2      THEN 2 ELSE 0 END +
-        CASE WHEN "Exige_Intervencao" = true THEN 1 ELSE 0 END +
+        CASE WHEN "Exige_Intervencao" = 1 THEN 1 ELSE 0 END +
         CASE WHEN "Possui_Pai" = 1           THEN 1 ELSE 0 END +
         CASE WHEN EXTRACT(HOUR FROM "Aberto"::timestamp)
              NOT BETWEEN 8 AND 18            THEN 1 ELSE 0 END

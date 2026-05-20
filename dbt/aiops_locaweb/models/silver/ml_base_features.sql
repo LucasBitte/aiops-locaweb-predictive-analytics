@@ -8,9 +8,9 @@
 */
 
 WITH base AS (
-    SELECT 
+    SELECT
         -- Mapeamento preventivo de maiúsculas para o padrão limpo do seu script
-        "Número"                AS incident_id,
+        "Numero"                AS incident_id,
         "Incidente_Pai"         AS incidente_pai,
         "Aberto_por"            AS aberto_por,
         "Prioridade"            AS prioridade,
@@ -19,17 +19,17 @@ WITH base AS (
         "Categoria"             AS categoria,
         "Subcategoria"          AS subcategoria,
         "Grupo_designado"       AS grupo_designado,
-        "Item_de_configuração"  AS item_configuracao,
+        "Item_de_configuracao"  AS item_configuracao,
         "Status"                AS status,
-        "Código_de_fechamento" AS codigo_fechamento,
-        "Entrou_para_KPI?"      AS entrou_kpi,
-        "KPI_Violado?"          AS kpi_violado,
-        "KPI_Status_Int"        AS kpi_status_int,
+        "Codigo_de_fechamento" AS codigo_fechamento,
+        "Entrou_para_KPI"       AS entrou_kpi,
+        "KPI_Violado"           AS kpi_violado,
+        "KPI_Violado"           AS kpi_status_int,
         "Possui_Pai"            AS possui_pai,
         "Exige_Intervencao"     AS exige_intervencao,
         "Target_Risco_SLA"      AS target_risco_sla,
         "Duracao_Horas"         AS duracao_horas,
-        "Duração"               AS duracao_segundos,
+        "Duracao"               AS duracao_segundos,
         "Aberto"::timestamp     AS aberto_at,
         "Resolvido"::timestamp  AS resolvido_at,
         "Encerrado"::timestamp  AS encerrado_at,
@@ -37,7 +37,7 @@ WITH base AS (
     FROM {{ ref('stg_incidents') }}
 
     -- Filtro mestre: removo ruídos de monitoramento automático.
-    WHERE "Exige_Intervencao" = TRUE
+    WHERE "Exige_Intervencao" = 1
 ),
 
 enriquecido AS (
@@ -138,7 +138,7 @@ enriquecido AS (
         (
             CASE WHEN target_risco_sla = 1     THEN 3 ELSE 0 END +
             CASE WHEN prioridade_num   <= 2    THEN 2 ELSE 0 END +
-            CASE WHEN exige_intervencao = TRUE THEN 1 ELSE 0 END +
+            CASE WHEN exige_intervencao = 1    THEN 1 ELSE 0 END +
             CASE WHEN possui_pai = 1           THEN 1 ELSE 0 END +
             CASE WHEN EXTRACT(HOUR FROM aberto_at) NOT BETWEEN 8 AND 18 THEN 1 ELSE 0 END
         )                                       AS score_risco_operacional

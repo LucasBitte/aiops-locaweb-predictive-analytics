@@ -1,8 +1,8 @@
-name: 'aiops_dbt'
+name: 'aiops_locaweb'
 version: '1.0.0'
 config-version: 2
 
-profile: 'aiops_dbt'
+profile: 'aiops_locaweb'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -17,13 +17,19 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  aiops_dbt:
+  aiops_locaweb:
     staging:
       +materialized: view
-      +schema: dbt_dev
-    marts:
+      +schema: public
+
+    silver:
       +materialized: table
-      +schema: dbt_dev
-    ml_marts: 
-      +materialized: table
-      +schema: dbt_dev
+      +schema: silver
+
+    gold:
+      bi:
+        +materialized: table
+        +schema: gold
+      ml:
+        +materialized: table
+        +schema: gold

@@ -1,14 +1,6 @@
 version: 2
 
 models:
-  - name: ml_base_features
-    description: "Tabela mestre de features (Feature Store) contendo dados limpos, enriquecidos e filtrados exclusivamente para consumo dos modelos preditivos e analíticos em Python."
-    columns:
-      - name: incident_id
-        description: "Código original único do incidente (Chave Primária Comercial)."
-        tests:
-          - unique
-          - not_null
   - name: ml_forecast_dataset
     description: "Dataset agregado a nível de dia (Série Temporal) contendo volumes de incidentes e métricas de pressão diária para o modelo de previsão Prophet/ARIMA."
     columns:
