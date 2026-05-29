@@ -1,9 +1,9 @@
 table dim_abertura
-	lineageTag: 3166d048-73a9-4880-b617-3142fddde5bf
+	lineageTag: e8d1016a-35e6-47bb-b9bd-379e6ce5ccc3
 
 	column dim_abertura_sk
 		dataType: string
-		lineageTag: 5b0745f3-2b35-482f-a431-147a77d79c9d
+		lineageTag: 206b5b0b-180f-47d0-b769-a5b669f9b03f
 		summarizeBy: none
 		sourceColumn: dim_abertura_sk
 
@@ -12,21 +12,21 @@ table dim_abertura
 	column aberto_at
 		dataType: dateTime
 		formatString: General Date
-		lineageTag: 6a5a230c-b2a1-42b2-b717-a1b453256a4a
+		lineageTag: 7c64e1db-c211-4eff-83a1-60e50a40c046
 		summarizeBy: none
 		sourceColumn: aberto_at
 
 		variation Variation
 			isDefault
-			relationship: 04f3fd7d-ce23-46bf-91f2-0462496eeea1
-			defaultHierarchy: LocalDateTable_548a8d84-cd89-4253-b160-0ccc0033ea7b.'Hierarquia de datas'
+			relationship: e727a45c-9fec-4071-a413-701b7d247f7c
+			defaultHierarchy: LocalDateTable_8658098b-a5f9-4df5-a154-cbff879c1a61.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
 	column hora_abertura
 		dataType: int64
 		formatString: 0
-		lineageTag: 737ca39a-e998-4e47-b9d2-1ff9538346b9
+		lineageTag: eb6ad3f0-f30e-40c7-a26f-c1fdd5b39bfb
 		summarizeBy: sum
 		sourceColumn: hora_abertura
 
@@ -34,7 +34,7 @@ table dim_abertura
 
 	column turno_abertura
 		dataType: string
-		lineageTag: 33cff07d-4da9-435b-9733-7da3c1552f3c
+		lineageTag: 15f1ca66-9bed-4100-8bf1-8b00fa6c020d
 		summarizeBy: none
 		sourceColumn: turno_abertura
 
@@ -43,7 +43,7 @@ table dim_abertura
 	column fora_horario_comercial
 		dataType: int64
 		formatString: 0
-		lineageTag: 3551ba61-97a3-4d78-befc-a31adb330a77
+		lineageTag: b148f034-74c5-4d21-a1f4-c6f60def72da
 		summarizeBy: sum
 		sourceColumn: fora_horario_comercial
 
@@ -52,7 +52,7 @@ table dim_abertura
 	column abriu_fim_de_semana
 		dataType: int64
 		formatString: 0
-		lineageTag: 01f90795-ad7e-4129-9a42-6a9650d338a1
+		lineageTag: 20b3ec3d-a266-4a8b-8458-9196d749096d
 		summarizeBy: sum
 		sourceColumn: abriu_fim_de_semana
 

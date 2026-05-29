@@ -1,9 +1,9 @@
 table dim_produto_categoria
-	lineageTag: ffe9ce7f-0e7b-4864-ac00-e12656da1a18
+	lineageTag: 928bb0db-08f4-4a20-904a-59f5dc830e6e
 
 	column dim_produto_categoria_sk
 		dataType: string
-		lineageTag: 64ce36d3-7e7f-49b3-8dfa-4efd13a31a3a
+		lineageTag: 40c45eb1-d25b-44ac-9830-300258bb3739
 		summarizeBy: none
 		sourceColumn: dim_produto_categoria_sk
 
@@ -11,7 +11,7 @@ table dim_produto_categoria
 
 	column produto
 		dataType: string
-		lineageTag: 38776b4c-1c46-4fa3-ac6a-e754d2fcd4dc
+		lineageTag: 640ab6e3-6524-44e7-9a63-2f0953c2954f
 		summarizeBy: none
 		sourceColumn: produto
 
@@ -19,7 +19,7 @@ table dim_produto_categoria
 
 	column categoria
 		dataType: string
-		lineageTag: 7c2c78c1-d6bc-46a9-9c00-fe0fe21e0d1b
+		lineageTag: 26703205-5666-4bb0-b04e-ab2e403e9374
 		summarizeBy: none
 		sourceColumn: categoria
 
@@ -27,7 +27,7 @@ table dim_produto_categoria
 
 	column subcategoria
 		dataType: string
-		lineageTag: fa670ae2-90a6-4437-9900-cec964e415a8
+		lineageTag: 1a49c6b3-76a3-4b7e-b24e-58356953c289
 		summarizeBy: none
 		sourceColumn: subcategoria
 

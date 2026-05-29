@@ -20,18 +20,24 @@ Este projeto transforma dados históricos de incidentes em inteligência operaci
 
 ## Stack Tecnológica
 
-| Camada | Tecnologia |
+| Tecnologia | Papel na Solução |
 |---|---|
-| Infraestrutura | AWS S3 · RDS PostgreSQL · Terraform |
-| Processamento | Apache Glue (Bronze → Silver) |
-| Regras de negócio | dbt + SQL |
-| Operações matemáticas | Python + scikit-learn |
-| Modelagem | Prophet · XGBoost · K-Means · SHAP |
-| Tracking de experimentos | MLflow · Azure ML Studio |
-| Orquestração | Apache Airflow (VPS) |
-| Versionamento | Git · GitHub |
-| Serving BI | Power BI · Microsoft Fabric |
-| Serving Web | FastAPI · React · Docker Swarm |
+| **AWS S3** | Data Lake com 3 camadas (Bronze: raw XLSX convertido em CSV; Silver: dados filtrados por KPI; Gold: features ML e Star Schema) |
+| **RDS PostgreSQL** | Data Warehouse que centraliza dados limpidos, transforma via dbt e alimenta modelos, BI e aplicação web |
+| **Terraform** | Infrastructure as Code para provisionar S3, RDS, IAM e Glue com versionamento no Git e auditoria de mudanças |
+| **Apache Glue** | ETL que converte Bronze (CSV) para Silver (Parquet no S3 e staging no RDS), automatizando a ingestão com tratamento de erros |
+| **dbt** | Transformação de dados versionada em SQL que aplica regras de negócio, cria Star Schema e marts ML com testes automáticos (`dbt test`) |
+| **Python + scikit-learn** | Engenharia de features pós-split temporal, normalização, encoding, tratamento de outliers e validação de dados antes do treinamento |
+| **Prophet** | Algoritmo de forecasting que prevê volume de incidentes para D+1 e D+7 com intervalos de confiança e detecção de sazonalidade |
+| **XGBoost** | Classificador de risco que prediz probabilidade de violação de OLA por incidente com SHAP para explicabilidade |
+| **K-Means** | Segmentador que agrupa incidentes em 4 clusters operacionais (A: críticos prolongados, B: recorrentes rápidos, C: sazonais, D: baixo impacto) |
+| **SHAP** | Biblioteca de explicabilidade que fornece importância de features e valores SHAP para modelos XGBoost e K-Means |
+| **MLflow + Azure ML** | Rastreamento centralizado de experimentos, registro de métricas (MAPE, AUC-ROC, Silhouette), artefatos e versionamento de modelos |
+| **Apache Airflow** | Orquestração de DAG diária (05h UTC) que executa Glue → dbt → modelos ML → quality checks com notificação de falhas |
+| **Git + GitHub** | Versionamento de código (dbt SQL, notebooks, DAGs, Terraform) com CI/CD automático (dbt test, lint, terraform plan) a cada push |
+| **Power BI + Microsoft Fabric** | 5 dashboards executivos (Histórico, KPIs, Clusters, Explicabilidade, Performance) conectados ao RDS com publicação web integrada |
+| **FastAPI + React** | API que expõe previsões e alertas operacionais com autenticação, integração com IA generativa (briefing diário, sentinela OLA) |
+| **Docker Swarm** | Orquestração de containers que deploya FastAPI + React em `subapp.looplyai.com.br` com auto-scaling e resiliência |
 
 ---
 
@@ -41,13 +47,13 @@ Este projeto transforma dados históricos de incidentes em inteligência operaci
 ┌─────────────────────────────────────────────────────────────────┐
 │                          GITHUB                                 │
 │                                                                 │
-│  ┌─────────────────┐  ┌──────────────┐  ┌───────────────────┐  │
-│  │  Repositório    │  │   Branches   │  │  CI/CD (Actions)  │  │
-│  │─────────────────│  │──────────────│  │───────────────────│  │
-│  │ notebooks/      │  │ main         │  │ dbt test on PR    │  │
-│  │ pipeline/       │  │ develop      │  │ lint Python       │  │
-│  │ dbt/            │  │ feature/e*   │  │ terraform plan    │  │
-│  │ airflow/dags/   │  └──────────────┘  └───────────────────┘  │
+│  ┌─────────────────┐  ┌──────────────┐  ┌───────────────────┐   │
+│  │  Repositório    │  │   Branches   │  │  CI/CD (Actions)  │   │
+│  │─────────────────│  │──────────────│  │───────────────────│   │
+│  │ notebooks/      │  │ main         │  │ dbt test on PR    │   │
+│  │ pipeline/       │  │ develop      │  │ lint Python       │   │
+│  │ dbt/            │  │ feature/e*   │  │ terraform plan    │   │
+│  │ airflow/dags/   │  └──────────────┘  └───────────────────┘   │
 │  │ infra/terraform │                                            │
 │  └─────────────────┘                                            │
 └─────────────────────────────────────────────────────────────────┘
@@ -60,16 +66,16 @@ Este projeto transforma dados históricos de incidentes em inteligência operaci
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │                        VPC                               │   │
 │  │                                                          │   │
-│  │  ┌─────────────────┐      ┌──────────────────────────┐  │   │
-│  │  │   S3 Data Lake  │      │     RDS PostgreSQL        │  │   │
-│  │  │─────────────────│      │──────────────────────────│  │   │
-│  │  │ bronze/         │      │ raw_incidents_silver      │  │   │
-│  │  │ silver/         │      │ star schema (gold_bi)     │  │   │
-│  │  │ gold/ml/        │      │ fct_previsoes             │  │   │
-│  │  │ gold/bi/        │      │ fct_ola_risk              │  │   │
-│  │  │ mlflow/         │      │ fct_cluster_id            │  │   │
-│  │  └────────┬────────┘      │ fct_model_metrics         │  │   │
-│  │           │               └──────────────────────────┘  │   │
+│  │  ┌─────────────────┐      ┌──────────────────────────┐   │   │
+│  │  │   S3 Data Lake  │      │     RDS PostgreSQL       │   │   │
+│  │  │─────────────────│      │──────────────────────────│   │   │
+│  │  │ bronze/         │      │ raw_incidents_silver     │   │   │
+│  │  │ silver/         │      │ star schema (gold_bi)    │   │   │
+│  │  │ gold/ml/        │      │ fct_previsoes            │   │   │
+│  │  │ gold/bi/        │      │ fct_ola_risk             │   │   │
+│  │  │ mlflow/         │      │ fct_cluster_id           │   │   │
+│  │  └────────┬────────┘      │ fct_model_metrics        │   │   │
+│  │           │               └──────────────────────────┘   │   │
 │  │  ┌────────▼────────┐                                     │   │
 │  │  │  Apache Glue    │                                     │   │
 │  │  │─────────────────│                                     │   │

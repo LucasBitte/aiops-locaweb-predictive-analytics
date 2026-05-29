@@ -10,21 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 1069.6838587543216,
-            "y": 369.24528457659056
-          },
-          "nodeIndex": "fct_incidents",
-          "nodeLineageTag": "55b6629e-2226-45e2-b629-25ba1bac93fa",
-          "size": {
-            "height": 300,
-            "width": 234
-          },
-          "zIndex": 1
-        },
-        {
-          "location": {
             "x": 371.04666573619443,
-            "y": 39.461328122689075
+            "y": 79.979656105807322
           },
           "nodeIndex": "dim_grupo",
           "nodeLineageTag": "806e8b11-ffed-4e0f-9ea9-6bd6cbbd6d37",
@@ -37,7 +24,7 @@
         {
           "location": {
             "x": 648,
-            "y": 38
+            "y": 78.51832798311824
           },
           "nodeIndex": "dim_abertura",
           "nodeLineageTag": "3166d048-73a9-4880-b617-3142fddde5bf",
@@ -50,7 +37,7 @@
         {
           "location": {
             "x": 932,
-            "y": 38
+            "y": 78.51832798311824
           },
           "nodeIndex": "dim_prioridade",
           "nodeLineageTag": "ff8c7732-80b2-444e-b3c0-521515092ca3",
@@ -63,7 +50,7 @@
         {
           "location": {
             "x": 1216,
-            "y": 38.041336496938776
+            "y": 78.559664480057023
           },
           "nodeIndex": "dim_produto_categoria",
           "nodeLineageTag": "ffe9ce7f-0e7b-4864-ac00-e12656da1a18",
@@ -76,7 +63,7 @@
         {
           "location": {
             "x": 1500,
-            "y": 40.860002791416562
+            "y": 81.3783307745348
           },
           "nodeIndex": "dim_status",
           "nodeLineageTag": "43597704-34f8-491e-bce7-b4c40f44ec8d",
@@ -89,7 +76,7 @@
         {
           "location": {
             "x": 1776.9533342638056,
-            "y": 32.4146623864946
+            "y": 72.932990369612838
           },
           "nodeIndex": "dim_tempo",
           "nodeLineageTag": "4d7f6ed5-a8ab-431c-9e7a-ff44d91e7407",
@@ -98,6 +85,67 @@
             "width": 234
           },
           "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 1689.9066685276111,
+            "y": 276.55030341865245
+          },
+          "nodeIndex": "Medidas",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1689.9066685276111,
+            "y": 272.34297222540511
+          },
+          "nodeIndex": "forecast_d1_d7",
+          "nodeLineageTag": "b04e5dbc-3cf4-4260-b580-7dd8ae9fe488",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1079.5491907849939,
+            "y": 444.99694124068117
+          },
+          "nodeIndex": "fact_incidents",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2257.9066685276111,
+            "y": 284.34297222540511
+          },
+          "nodeIndex": "xgboost_predictions",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1973.9066685276111,
+            "y": 284.34297222540511
+          },
+          "nodeIndex": "kmeans_assignments",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "Todas as tabelas",

@@ -1,9 +1,9 @@
 table dim_tempo
-	lineageTag: 4d7f6ed5-a8ab-431c-9e7a-ff44d91e7407
+	lineageTag: b386f4dd-2c14-42d2-8060-b4163a673a0d
 
 	column dim_tempo_sk
 		dataType: string
-		lineageTag: 13c56e84-55b0-4e40-bc3d-0b291900220a
+		lineageTag: e917d361-76a4-45bd-9350-de6bd4cae832
 		summarizeBy: none
 		sourceColumn: dim_tempo_sk
 
@@ -12,14 +12,14 @@ table dim_tempo
 	column data_abertura
 		dataType: dateTime
 		formatString: Long Date
-		lineageTag: 53c1058f-fc05-49c8-a82a-afeb2445a55a
+		lineageTag: 63b31961-ea0d-42d1-9b99-e88790cb503b
 		summarizeBy: none
 		sourceColumn: data_abertura
 
 		variation Variation
 			isDefault
-			relationship: 5eb3c61e-a223-489c-aa52-d19e8ac6f05a
-			defaultHierarchy: LocalDateTable_f81c5f45-2e6b-467a-9adf-81614b4b87e6.'Hierarquia de datas'
+			relationship: f799dcfe-1b4c-4770-bce7-83ffe57496c4
+			defaultHierarchy: LocalDateTable_6dc4d7a7-fb2f-4c9c-961c-79780e1eb30f.'Hierarquia de datas'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -28,7 +28,7 @@ table dim_tempo
 	column ano
 		dataType: int64
 		formatString: 0
-		lineageTag: 22b8d661-2aa0-48b1-ab28-fa7de3a4e1e0
+		lineageTag: 7bd89956-9bfd-4edd-a5f8-4951e77ed4de
 		summarizeBy: sum
 		sourceColumn: ano
 
@@ -37,7 +37,7 @@ table dim_tempo
 	column mes_num
 		dataType: int64
 		formatString: 0
-		lineageTag: 417e36c0-bcac-44ab-9dea-52e5e8687b53
+		lineageTag: 5bc7bcec-8538-48ca-b966-436e34543e8a
 		summarizeBy: sum
 		sourceColumn: mes_num
 
@@ -45,7 +45,7 @@ table dim_tempo
 
 	column nome_mes
 		dataType: string
-		lineageTag: a2be3ac5-39c2-4a8e-8381-faac646efe50
+		lineageTag: 8600f4c5-04b5-401e-bf64-84ea93c239a0
 		summarizeBy: none
 		sourceColumn: nome_mes
 
@@ -54,7 +54,7 @@ table dim_tempo
 	column semana_ano
 		dataType: int64
 		formatString: 0
-		lineageTag: 6d35c56c-030c-4c7d-8d94-d8013eae0eaa
+		lineageTag: 9099bc67-beea-4f53-9c3b-b77d58a66d69
 		summarizeBy: sum
 		sourceColumn: semana_ano
 
@@ -63,7 +63,7 @@ table dim_tempo
 	column trimestre
 		dataType: int64
 		formatString: 0
-		lineageTag: 6ba69624-2ed6-4679-a6a9-7ada39743392
+		lineageTag: 7d45ee26-67ae-4e9c-9a66-5c9432ff7e4e
 		summarizeBy: sum
 		sourceColumn: trimestre
 
@@ -71,7 +71,7 @@ table dim_tempo
 
 	column ano_mes
 		dataType: string
-		lineageTag: 6b5dca0b-646f-42ea-94e7-83d37105f2ee
+		lineageTag: b00f2457-a022-4a00-8baa-27857ff5a1c3
 		summarizeBy: none
 		sourceColumn: ano_mes
 
@@ -80,7 +80,7 @@ table dim_tempo
 	column dia_semana_num
 		dataType: int64
 		formatString: 0
-		lineageTag: 760683b4-d9ff-4be7-88a3-2fdef44ceea8
+		lineageTag: f868eba8-01ea-4ec9-8b24-ff1f25732fc6
 		summarizeBy: sum
 		sourceColumn: dia_semana_num
 
@@ -88,7 +88,7 @@ table dim_tempo
 
 	column nome_dia
 		dataType: string
-		lineageTag: 2516d689-a664-4a57-8320-b466ce1a5384
+		lineageTag: 64b8fe7d-eabf-4392-999b-de23bcf458a7
 		summarizeBy: none
 		sourceColumn: nome_dia
 
@@ -97,7 +97,7 @@ table dim_tempo
 	column is_fim_de_semana
 		dataType: int64
 		formatString: 0
-		lineageTag: 2883f505-cbfb-4f17-973e-0c7c0117720c
+		lineageTag: 76b8f917-a0d5-4755-a1e5-abd023386303
 		summarizeBy: sum
 		sourceColumn: is_fim_de_semana
 

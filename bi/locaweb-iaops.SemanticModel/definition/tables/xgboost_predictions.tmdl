@@ -1,0 +1,47 @@
+table xgboost_predictions
+	lineageTag: 04dde068-6d56-454e-b37e-03fa7ccf58a4
+
+	column y_real
+		dataType: int64
+		formatString: 0
+		lineageTag: 8c6cd2a6-c48a-4842-98b9-87f96622935c
+		summarizeBy: sum
+		sourceColumn: y_real
+
+		annotation SummarizationSetBy = Automatic
+
+	column y_pred
+		dataType: int64
+		formatString: 0
+		lineageTag: eed596b6-13c6-48ba-a366-cc6815582566
+		summarizeBy: sum
+		sourceColumn: y_pred
+
+		annotation SummarizationSetBy = Automatic
+
+	column y_pred_proba
+		dataType: double
+		lineageTag: 60f3235d-0c8f-4bb9-bc13-be4e1fe19c96
+		summarizeBy: sum
+		sourceColumn: y_pred_proba
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition xgboost_predictions = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\ml\xgboost\_xgboost_test_predictions csv" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\ml\xgboost\",Name="xgboost_test_predictions.csv"]}[Content],
+				    #"CSV Importado" = Csv.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\ml\xgboost\_xgboost_test_predictions csv",[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"CSV Importado", [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"y_real", Int64.Type}, {"y_pred", Int64.Type}, {"y_pred_proba", type number}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

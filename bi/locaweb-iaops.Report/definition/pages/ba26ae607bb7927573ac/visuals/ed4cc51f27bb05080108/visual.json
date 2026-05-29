@@ -1,0 +1,264 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ed4cc51f27bb05080108",
+  "position": {
+    "x": 78.181818181818173,
+    "y": 160.90909090909091,
+    "z": 0,
+    "height": 143.63636363636363,
+    "width": 610
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Total Incidentes"
+                }
+              },
+              "queryRef": "Medidas.Total Incidentes",
+              "nativeQueryRef": "Total Incidentes"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Duracao Media"
+                }
+              },
+              "queryRef": "Medidas.Duracao Media",
+              "nativeQueryRef": "Duracao Media"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Volume Real"
+                }
+              },
+              "queryRef": "Medidas.Volume Real",
+              "nativeQueryRef": "Volume Real"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Volume Previsto"
+                }
+              },
+              "queryRef": "Medidas.Volume Previsto",
+              "nativeQueryRef": "Volume Previsto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Delta Volume"
+                }
+              },
+              "queryRef": "Medidas.Delta Volume",
+              "nativeQueryRef": "Delta Volume"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Cluster A"
+                }
+              },
+              "queryRef": "Medidas.Cluster A",
+              "nativeQueryRef": "Cluster A"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Medidas"
+                    }
+                  },
+                  "Property": "Incidentes em Risco SLA"
+                }
+              },
+              "queryRef": "Medidas.Incidentes em Risco SLA",
+              "nativeQueryRef": "Incidentes em Risco SLA"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Medidas"
+                  }
+                },
+                "Property": "Total Incidentes"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "90.0909001382386D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Medidas.Incidentes em Risco SLA"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "06f1414f20df947eaa53",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Total Incidentes"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "49d625d7c8996321b903",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Duracao Media"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fa155e5eec722c85f733",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Volume Real"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f1978bab72198fc26e2f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Volume Previsto"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2aec2df29b2245be242f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Delta Volume"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "05fe1ae63b40f8aa418f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Cluster A"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c0c734c0d95bad0ea23f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Medidas"
+              }
+            },
+            "Property": "Incidentes em Risco SLA"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

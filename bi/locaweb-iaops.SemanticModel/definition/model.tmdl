@@ -8,23 +8,28 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["fct_incidents","dim_grupo","dim_abertura","dim_prioridade","dim_produto_categoria","dim_status","dim_tempo"]
+annotation PBI_QueryOrder = ["dim_abertura","dim_grupo","dim_prioridade","dim_produto_categoria","dim_status","dim_tempo","fact_incidents","forecast_d1_d7","xgboost_predictions","kmeans_assignments"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
-ref table fct_incidents
-ref table DateTableTemplate_c9016950-5361-4edf-99a5-a03814dd8af9
-ref table LocalDateTable_01979b92-c205-4a4c-97ab-81f6ae702200
-ref table LocalDateTable_f00a1e56-410a-4162-86a9-5c3e44c0c21b
-ref table LocalDateTable_1e0d789a-8dab-4067-b1d3-59acbce3a3b6
-ref table dim_grupo
 ref table dim_abertura
-ref table LocalDateTable_548a8d84-cd89-4253-b160-0ccc0033ea7b
+ref table DateTableTemplate_a3127860-4ac0-44c3-a2e7-fe7e0f05f9f3
+ref table LocalDateTable_8658098b-a5f9-4df5-a154-cbff879c1a61
+ref table dim_grupo
 ref table dim_prioridade
 ref table dim_produto_categoria
 ref table dim_status
 ref table dim_tempo
-ref table LocalDateTable_f81c5f45-2e6b-467a-9adf-81614b4b87e6
+ref table LocalDateTable_6dc4d7a7-fb2f-4c9c-961c-79780e1eb30f
+ref table fact_incidents
+ref table LocalDateTable_ddccf066-a765-4360-a54b-52337f986cde
+ref table LocalDateTable_0de8b343-9edb-470d-b96f-81ba62a1dd0a
+ref table LocalDateTable_9b37cccb-bcc8-418c-a386-d960f63c0e0f
+ref table Medidas
+ref table forecast_d1_d7
+ref table LocalDateTable_c5dfebea-ac56-412b-bc60-be5c1675f1bd
+ref table xgboost_predictions
+ref table kmeans_assignments
 
 ref cultureInfo pt-BR
 

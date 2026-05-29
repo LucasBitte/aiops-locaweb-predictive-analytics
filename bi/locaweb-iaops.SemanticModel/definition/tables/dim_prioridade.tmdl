@@ -1,9 +1,9 @@
 table dim_prioridade
-	lineageTag: ff8c7732-80b2-444e-b3c0-521515092ca3
+	lineageTag: 5136d0b0-d2ca-4e84-92f5-c59da2fc03df
 
 	column dim_prioridade_sk
 		dataType: string
-		lineageTag: 843fe9d1-254e-4b4d-aeac-0fa2cec221f4
+		lineageTag: 7ae6f6e0-72dc-47ce-a755-71bf138920ce
 		summarizeBy: none
 		sourceColumn: dim_prioridade_sk
 
@@ -12,15 +12,15 @@ table dim_prioridade
 	column prioridade_num
 		dataType: int64
 		formatString: 0
-		lineageTag: d4a863c1-ee50-42a6-aa1c-dbab38e9c52a
-		summarizeBy: none
+		lineageTag: 3c920895-b060-49a8-810e-8f11357c4de1
+		summarizeBy: sum
 		sourceColumn: prioridade_num
 
 		annotation SummarizationSetBy = Automatic
 
 	column prioridade_texto
 		dataType: string
-		lineageTag: 884facf7-e392-477b-ab7b-f613bcdeee36
+		lineageTag: d29d6eca-1fc4-4c9e-8e80-c03778622ec9
 		summarizeBy: none
 		sourceColumn: prioridade_texto
 
@@ -28,7 +28,7 @@ table dim_prioridade
 
 	column bucket_prioridade
 		dataType: string
-		lineageTag: d04cad4b-4869-4001-ab53-1d61001ebda7
+		lineageTag: 9e41d55e-c789-4432-b3ec-41ab7a3df6ea
 		summarizeBy: none
 		sourceColumn: bucket_prioridade
 
@@ -36,7 +36,7 @@ table dim_prioridade
 
 	column nivel_criticidade
 		dataType: string
-		lineageTag: 718a778a-5085-470a-b569-7d000ec42a57
+		lineageTag: 0f79439f-daac-4a90-bcfd-4d664e73fcca
 		summarizeBy: none
 		sourceColumn: nivel_criticidade
 
@@ -44,8 +44,8 @@ table dim_prioridade
 
 	column threshold_sla_horas
 		dataType: double
-		lineageTag: 2fa42bd3-d833-466b-81ba-46c83b1b4007
-		summarizeBy: none
+		lineageTag: b4cfbe07-bc14-4f6b-a947-1225e40d3837
+		summarizeBy: sum
 		sourceColumn: threshold_sla_horas
 
 		annotation SummarizationSetBy = Automatic

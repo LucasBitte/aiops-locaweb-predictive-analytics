@@ -1,0 +1,74 @@
+table Medidas
+	lineageTag: 13d33d9d-7258-41c9-ba2e-441c4c00218f
+
+	measure Medida
+		lineageTag: c2eb31db-49a6-49a7-a8b2-b637ea530d04
+
+	measure 'Total Incidentes' = COUNTA(fact_incidents[incident_sk])
+		formatString: 0
+		lineageTag: 66d22795-bc8a-409c-8c1b-261b848c68d8
+
+	measure 'Taxa SLA Violado (%)' =
+			
+			DIVIDE(
+			    SUM(fact_incidents[kpi_status_int]),
+			    COUNTA(fact_incidents[incident_sk]),
+			    0
+			) * 100
+		formatString: 0
+		lineageTag: 41342d50-e10b-4198-9118-f6de8956f329
+
+	measure 'Duracao Media' = AVERAGE(fact_incidents[duracao_horas])
+		lineageTag: d3f95697-0f6a-49c2-98e9-012eb04ba898
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Real' = COUNTA(fact_incidents[incident_sk])
+		formatString: 0
+		lineageTag: 39a3f095-2544-439c-a249-1532eff78888
+
+	measure 'Volume Previsto' = SUM(forecast_d1_d7[forecast])
+		formatString: 0
+		lineageTag: fbab6eaf-d5fa-47ba-b1d8-11b5070f94c1
+
+	measure 'Delta Volume' = [Volume Real] - [Volume Previsto]
+		formatString: 0
+		lineageTag: edb0531a-d156-4eec-9893-69a135537530
+
+	measure 'Incidentes em Risco SLA' =
+			
+			CALCULATE(
+			    COUNT(xgboost_predictions[y_pred_proba]),
+			    xgboost_predictions[y_pred_proba] > 0.7
+			)
+		formatString: 0
+		lineageTag: 1ccc7b05-8739-486d-b20f-9f2e50738eef
+
+	measure 'Cluster A' = ```
+			
+			CALCULATE(
+			COUNTROWS(kmeans_assignments),
+			kmeans_assignments[cluster_label] = "A")
+			 
+			```
+		formatString: 0
+		lineageTag: 2f9f7d83-3609-49b8-b047-7ef1468d67ed
+
+	column Column
+		isHidden
+		formatString: 0
+		lineageTag: 4a7460ad-4baf-4a6c-801e-78a893ff174d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 2eecf9aa78d64ddda4df85663f752cd6
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

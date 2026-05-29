@@ -1,9 +1,9 @@
 table dim_grupo
-	lineageTag: 806e8b11-ffed-4e0f-9ea9-6bd6cbbd6d37
+	lineageTag: 04d9bd46-a062-4748-92c2-8cc5378b8a05
 
 	column dim_grupo_sk
 		dataType: string
-		lineageTag: 0722a15b-76b4-434f-a67f-11c58d04f9cf
+		lineageTag: 6ccf22c3-f9ba-4a28-ab7f-11f82bf5e80e
 		summarizeBy: none
 		sourceColumn: dim_grupo_sk
 
@@ -11,7 +11,7 @@ table dim_grupo
 
 	column grupo_designado
 		dataType: string
-		lineageTag: 5413ed11-5cbf-4c08-8bee-17497094d5a5
+		lineageTag: 56d78e81-a0f9-401d-9f93-48fe94c38bc2
 		summarizeBy: none
 		sourceColumn: grupo_designado
 

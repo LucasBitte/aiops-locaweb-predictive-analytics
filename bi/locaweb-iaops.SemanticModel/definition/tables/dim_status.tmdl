@@ -1,9 +1,9 @@
 table dim_status
-	lineageTag: 43597704-34f8-491e-bce7-b4c40f44ec8d
+	lineageTag: 8f790b4a-54b8-43bf-ab34-81221cbd9f37
 
 	column dim_status_sk
 		dataType: string
-		lineageTag: c09734d9-720e-4198-8b20-0b1a2877222c
+		lineageTag: b522c5ee-36fd-43ba-9739-c2857fc79b23
 		summarizeBy: none
 		sourceColumn: dim_status_sk
 
@@ -11,7 +11,7 @@ table dim_status
 
 	column status
 		dataType: string
-		lineageTag: 8e164eab-6f42-4d4f-8479-04e6190f4508
+		lineageTag: 1b2f22bb-703c-4cbc-b9b8-6f4e34fbbe3a
 		summarizeBy: none
 		sourceColumn: status
 
@@ -19,15 +19,16 @@ table dim_status
 
 	column codigo_fechamento
 		dataType: string
-		lineageTag: 4d4d0641-f1b9-4247-8a59-5f0af319deb6
+		lineageTag: 19ddb118-3fe8-47dc-90a0-70546d7dda97
 		summarizeBy: none
 		sourceColumn: codigo_fechamento
 
 		annotation SummarizationSetBy = Automatic
 
 	column entrou_kpi
-		dataType: string
-		lineageTag: 6dc859cb-28de-414a-b44b-fbe273484d97
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c64e3105-3228-472a-86f2-12fea4a12848
 		summarizeBy: none
 		sourceColumn: entrou_kpi
 

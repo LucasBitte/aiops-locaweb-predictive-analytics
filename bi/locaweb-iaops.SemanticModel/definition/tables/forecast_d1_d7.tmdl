@@ -1,0 +1,62 @@
+table forecast_d1_d7
+	lineageTag: b04e5dbc-3cf4-4260-b580-7dd8ae9fe488
+
+	column data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0e23f712-7230-4665-bd71-ed3d91abd5ca
+		summarizeBy: none
+		sourceColumn: data
+
+		variation Variation
+			isDefault
+			relationship: 76b80134-4588-400e-8dd7-21c4c20f5330
+			defaultHierarchy: LocalDateTable_c5dfebea-ac56-412b-bc60-be5c1675f1bd.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column forecast
+		dataType: int64
+		formatString: 0
+		lineageTag: 30cc3a19-237b-4de2-b878-4d2e602be69e
+		summarizeBy: sum
+		sourceColumn: forecast
+
+		annotation SummarizationSetBy = Automatic
+
+	column lower_ci
+		dataType: int64
+		formatString: 0
+		lineageTag: 61ebef6a-218f-4a63-a798-85bed96a1409
+		summarizeBy: sum
+		sourceColumn: lower_ci
+
+		annotation SummarizationSetBy = Automatic
+
+	column upper_ci
+		dataType: int64
+		formatString: 0
+		lineageTag: bc62d2f2-df55-42b8-9b29-b7639a06866a
+		summarizeBy: sum
+		sourceColumn: upper_ci
+
+		annotation SummarizationSetBy = Automatic
+
+	partition forecast_d1_d7 = m
+		mode: import
+		source =
+				let
+				    Fonte = Folder.Files("D:\Projetos\AWS_Portifolio\Projeto aws\data"),
+				    #"D:\Projetos\AWS_Portifolio\Projeto aws\data\ml\forecast\_forecast_d1_d7 csv" = Fonte{[#"Folder Path"="D:\Projetos\AWS_Portifolio\Projeto aws\data\ml\forecast\",Name="forecast_d1_d7.csv"]}[Content],
+				    #"CSV Importado" = Csv.Document(#"D:\Projetos\AWS_Portifolio\Projeto aws\data\ml\forecast\_forecast_d1_d7 csv",[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Cabeçalhos Promovidos" = Table.PromoteHeaders(#"CSV Importado", [PromoteAllScalars=true]),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Cabeçalhos Promovidos",{{"data", type date}, {"forecast", Int64.Type}, {"lower_ci", Int64.Type}, {"upper_ci", Int64.Type}})
+				in
+				    #"Tipo Alterado"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
